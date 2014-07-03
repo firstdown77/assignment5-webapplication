@@ -4,6 +4,8 @@ public class Report {
 	private Long _id;
 	private String user;
 	private String geometry;
+	private String title;
+
 	
 	/**
 	 * @param _id
@@ -66,5 +68,4 @@ public class Report {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	private String title;
 }

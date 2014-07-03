@@ -3,16 +3,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css"/>
+<title>Login</title>
 </head>
 <body>
 <h2 class="text-center">Log In</h2><br />
 <p class="text-center">Or, <a href="register.html">Register</a></p>
- <form name="input" action="hello.jsp" method="post" class="text-center">
-<input type="text" name="username" onfocus="this.value=''"value="Username"
- onblur="if (this.value=='') this.value='Username'"/><br /><br />
-<input type="text" name="password" onfocus="this.value=''" value="Password"
- onblur="if (this.value=='') this.value='Password'"/><br /><br />
-<input type="submit" value="Log In" />
+<form name="input" action="my_account.jsp" method="post" class="text-center">
+	<input type="text" name="username" onfocus="this.value=''"value="Username"
+	 onblur="if (this.value=='') this.value='Username'"/><br /><br />
+	<input type="password" name="password" onfocus="this.value=''" value="Password"
+	 onblur="if (this.value=='') this.value='Password'"/><br /><br />
+	<input type="submit" value="Log In" />
 </form>
 </body>
 </html>
