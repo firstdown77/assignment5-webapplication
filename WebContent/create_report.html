@@ -11,11 +11,17 @@
 <body>
 <div id="header"></div>
 <h2 class="text-center">Create Report</h2><br />
-<form name="input" action="view_report.jsp" method="post" class="text-center">
+<form name="input" action="view_report" method="post" class="text-center" enctype="multipart/form-data">
 	<input type="text" name="title" onfocus="this.value=''"value="Title"
 	 onblur="if (this.value=='') this.value='Title'"/><br /><br />
-	<input type="text" name="geometry" onfocus="this.value=''" value="Geometry"
-	 onblur="if (this.value=='') this.value='Geometry'"/><br /><br />
+	<input type="text" name="latitude" onfocus="this.value=''" value="Latitude"
+	 onblur="if (this.value=='') this.value='Latitude'"/><br /><br />
+	 <input type="text" name="longitude" onfocus="this.value=''" value="Longitude"
+	 onblur="if (this.value=='') this.value='Longitude'"/><br /><br />
+	 <input type="text" name="radius" onfocus="this.value=''" value="Radius"
+	 onblur="if (this.value=='') this.value='Radius'"/><br /><br />
+	 <center><input type="file" name="content" onfocus="this.value=''" value="Content"
+	 onblur="if (this.value=='') this.value='Content'"/></center><br /><br />
 	<input type="submit" value="Create Report" />
 </form>
 </body>

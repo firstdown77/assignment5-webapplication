@@ -1,25 +1,46 @@
 package dbObjects;
 
+import java.io.InputStream;
+
 public class Report {
 	private Long _id;
-	private String user;
-	private String geometry;
+	private String username;
+	private double latitude;
+	private double longitude;
+	private double radius;
 	private String title;
-
+	private InputStream content;
+	private String filename;
 	
-	/**
-	 * @param _id
-	 * @param user
-	 * @param geometry
-	 * @param title
-	 */
-	public Report(Long _id, String user, String geometry, String title) {
+	public Report(Long _id, String user, double latitude, double longitude,
+			String title, double radius, InputStream content, String filename) {
+		super();
 		this._id = _id;
-		this.user = user;
-		this.geometry = geometry;
+		this.username = user;
+		this.latitude = latitude;
+		this.longitude = longitude;
 		this.title = title;
+		this.radius = radius;
+		this.content = content;
+		this.filename = filename;
 	}
 	
+	public double getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(double latitude) {
+		this.latitude = latitude;
+	}
+
+	public double getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(double longitude) {
+		this.longitude = longitude;
+	}
+
 	/**
 	 * @return the _id
 	 */
@@ -36,25 +57,13 @@ public class Report {
 	 * @return the user
 	 */
 	public String getUser() {
-		return user;
+		return username;
 	}
 	/**
 	 * @param user the user to set
 	 */
 	public void setUser(String user) {
-		this.user = user;
-	}
-	/**
-	 * @return the geometry
-	 */
-	public String getGeometry() {
-		return geometry;
-	}
-	/**
-	 * @param geometry the geometry to set
-	 */
-	public void setGeometry(String geometry) {
-		this.geometry = geometry;
+		this.username = user;
 	}
 	/**
 	 * @return the title
@@ -67,5 +76,29 @@ public class Report {
 	 */
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public double getRadius() {
+		return radius;
+	}
+
+	public void setRadius(double radius) {
+		this.radius = radius;
+	}
+
+	public InputStream getContent() {
+		return content;
+	}
+
+	public void setContent(InputStream content) {
+		this.content = content;
+	}
+
+	public String getFilename() {
+		return filename;
+	}
+
+	public void setFilename(String filename) {
+		this.filename = filename;
 	}
 }
