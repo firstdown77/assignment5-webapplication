@@ -2,6 +2,7 @@
 <html>
 <head>
 <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" href="css/header.css" type="text/css"/>
 <title>My Account</title>
 <script src="js/jquery-1.11.1.min.js"></script>
 <script src="js/load_header.js"></script>

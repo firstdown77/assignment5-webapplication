@@ -6,6 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII" />
 <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css"/>
+<link rel="stylesheet" href="css/header.css" type="text/css"/>
 <title>View Evacuation Event</title>
 <script src="js/jquery-1.11.1.min.js"></script>
 <script src="js/load_header.js"></script>

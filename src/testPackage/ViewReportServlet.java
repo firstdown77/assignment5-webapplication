@@ -41,6 +41,7 @@ public class ViewReportServlet extends HttpServlet {
 	       "<html>\n" +
 	       "<head><title>View Report</title></head>\n" +
 	       "<link rel='stylesheet' href='css/bootstrap.min.css' type='text/css'/>" +
+	       "<link rel='stylesheet' href='css/header.css' type='text/css'/>" + 
 	       "<script src='js/jquery-1.11.1.min.js'></script>" +
 	       "<script src='js/load_header.js'></script>" +
 	       "<meta http-equiv='Content-Type' content='text/html; charset=US-ASCII' />" +
@@ -66,14 +67,31 @@ public class ViewReportServlet extends HttpServlet {
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 		String title = request.getParameter("title");
-		double latitude = Double.parseDouble(request.getParameter("latitude"));
-		double longitude = Double.parseDouble(request.getParameter("longitude"));
-		double radius = Double.parseDouble(request.getParameter("radius"));
+		double latitude;
+		double longitude;
+		double radius;
+		try {
+			latitude = Double.parseDouble(request.getParameter("latitude"));
+		}
+		catch (NumberFormatException e) {
+			latitude = 0;
+		}
+		try {
+			longitude = Double.parseDouble(request.getParameter("longitude"));
+		}
+		catch (NumberFormatException e) {
+			longitude = 0;
+		}
+		try {
+			radius = Double.parseDouble(request.getParameter("radius"));
+		}
+		catch (NumberFormatException e) {
+			radius = 0;
+		}
 		String username = UserVariables.username;
 		Part filePart = request.getPart("content");
 		InputStream fileContent = filePart.getInputStream();
 		String fileName = getFilename(filePart);
-		
 		Report r = new Report(null, username, latitude, longitude,
 				title, radius, fileContent, fileName);
 		DatabaseMethods db = new DatabaseMethods();

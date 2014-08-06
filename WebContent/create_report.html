@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css"/>
+<link rel="stylesheet" href="css/header.css" type="text/css"/>
 <script src="js/jquery-1.11.1.min.js"></script>
 <script src="js/load_header.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII" />
@@ -12,15 +13,15 @@
 <div id="header"></div>
 <h2 class="text-center">Create Report</h2><br />
 <form name="input" action="view_report" method="post" class="text-center" enctype="multipart/form-data">
-	<input type="text" name="title" onfocus="this.value=''"value="Title"
+	<input type="text" name="title" onfocus="if (this.value==='Title') this.value=''" value="Title"
 	 onblur="if (this.value=='') this.value='Title'"/><br /><br />
-	<input type="text" name="latitude" onfocus="this.value=''" value="Latitude"
+	<input type="text" name="latitude" onfocus="if (this.value==='Latitude') this.value=''" value="Latitude"
 	 onblur="if (this.value=='') this.value='Latitude'"/><br /><br />
-	 <input type="text" name="longitude" onfocus="this.value=''" value="Longitude"
+	 <input type="text" name="longitude" onfocus="if (this.value==='Longitude') this.value=''" value="Longitude"
 	 onblur="if (this.value=='') this.value='Longitude'"/><br /><br />
-	 <input type="text" name="radius" onfocus="this.value=''" value="Radius"
+	 <input type="text" name="radius" onfocus="if (this.value==='Radius') this.value=''" value="Radius"
 	 onblur="if (this.value=='') this.value='Radius'"/><br /><br />
-	 <center><input type="file" name="content" onfocus="this.value=''" value="Content"
+	 <center><input type="file" name="content" onfocus="if (this.value==='Content') this.value=''" value="Content"
 	 onblur="if (this.value=='') this.value='Content'"/></center><br /><br />
 	<input type="submit" value="Create Report" />
 </form>

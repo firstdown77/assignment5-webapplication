@@ -1,0 +1,11 @@
+@CHARSET "US-ASCII";
+.pad20 {
+	padding:20px;
+}
+.pad10 {
+	padding:10px;
+}
+.centered {
+	margin-left:auto;
+	margin-right:auto;
+}

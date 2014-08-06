@@ -1,0 +1,10 @@
+@CHARSET "US-ASCII";
+table {
+	margin-left: auto;
+	margin-right: auto;
+	border-collapse: collapse;
+}
+.normalborder {
+   border: 1pt solid black;
+   padding: 10px;
+} 
