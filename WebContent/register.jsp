@@ -12,7 +12,7 @@
 	<%@ page import="javax.crypto.Cipher"%>
 	<%@ page import="javax.crypto.KeyGenerator"%>
 	<%@ page import="javax.crypto.SecretKey"%>
-	<%@ page import="testPackage.*"%>
+	<%@ page import="servlets.*"%>
 	<%@ page import="dbObjects.*"%>
 	<%@ page import="java.sql.Date"%>
 	<%@ page import="java.util.Arrays"%>
@@ -59,7 +59,7 @@
 					<input type="text" name="lastname" onfocus="if (this.value==='Last Name') this.value=''"
 						value="Last Name" onblur="if (this.value=='') this.value='Last Name'" />
 					<br /> <br /> <input type="text" name="username"
-						onfocus="if (this.value==='Username') this.value=''" value="Username"
+						onfocus="if (this.value==='Username) this.value=''" value="Username"
 						onblur="if (this.value=='') this.value='Username'" /><br /> <br />
 					<input type="password" name="password" onfocus="if (this.value==='Password') this.value=''"
 						value="Password" onblur="if (this.value=='') this.value='Password'" /><br />

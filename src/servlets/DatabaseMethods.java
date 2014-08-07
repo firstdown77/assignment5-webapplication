@@ -1,4 +1,4 @@
-package testPackage;
+package servlets;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -54,6 +54,7 @@ public class DatabaseMethods {
 
 	//	Long _id;
 	//	String username;
+	//	String address;
 	//	double latitude;
 	//	double longitude;
 	//	double radius;
@@ -61,21 +62,23 @@ public class DatabaseMethods {
 	//	InputStream content;
 	public boolean insertReport(Report r) {
 		open();
-		String SQL_QUERY = "INSERT INTO reports (username, latitude, longitude,"
-				+ " radius, title, content, filename) VALUES (?, ?, ?, ?, ?, ?, ?)";
+		String SQL_QUERY = "INSERT INTO reports (username, address, latitude, longitude,"
+				+ " radius, title, content, filename) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 		PreparedStatement pst;
 		r.setUser(StringEscapeUtils.escapeJava(r.getUser()));
+		r.setAddress(StringEscapeUtils.escapeJava(r.getAddress()));
 		r.setTitle(StringEscapeUtils.escapeJava(r.getTitle()));
 		r.setFilename(StringEscapeUtils.escapeJava(r.getFilename()));
 		try {
 			pst = con.prepareStatement(SQL_QUERY);
 			pst.setString(1, r.getUser());
-			pst.setDouble(2, r.getLatitude());
-			pst.setDouble(3, r.getLongitude());
-			pst.setDouble(4, r.getRadius());
-			pst.setString(5, r.getTitle());
-			pst.setBlob(6, r.getContent());
-			pst.setString(7, r.getFilename());
+			pst.setString(2, r.getAddress());
+			pst.setDouble(3, r.getLatitude());
+			pst.setDouble(4, r.getLongitude());
+			pst.setDouble(5, r.getRadius());
+			pst.setString(6, r.getTitle());
+			pst.setBlob(7, r.getContent());
+			pst.setString(8, r.getFilename());
 			return (pst.executeUpdate()>0);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -94,12 +97,13 @@ public class DatabaseMethods {
 			ResultSet rs = stmt.executeQuery(SQL_QUERY);
 			if(rs.next()) {
 				r = new Report(Long.valueOf(Long.valueOf(rs.getInt("report_id"))),
-						rs.getString("username"), rs.getDouble("latitude"),
+						rs.getString("username"), rs.getString("address"), rs.getDouble("latitude"),
 						rs.getDouble("longitude"), rs.getString("title"),
 						rs.getDouble("radius"),
 						rs.getBlob("content").getBinaryStream(),
 						rs.getString("filename"));
 				r.setUser(StringEscapeUtils.unescapeJava(r.getUser()));
+				r.setAddress(StringEscapeUtils.unescapeJava(r.getAddress()));
 				r.setTitle(StringEscapeUtils.unescapeJava(r.getTitle()));
 				r.setFilename(StringEscapeUtils.unescapeJava(r.getFilename()));
 			}
@@ -122,12 +126,13 @@ public class DatabaseMethods {
 			ResultSet rs = stmt.executeQuery(SQL_QUERY);
 			while(rs.next()) {
 				r = new Report(Long.valueOf(Long.valueOf(rs.getInt("report_id"))),
-						rs.getString("username"), rs.getDouble("latitude"),
+						rs.getString("username"), rs.getString("address"), rs.getDouble("latitude"),
 						rs.getDouble("longitude"), rs.getString("title"),
 						rs.getDouble("radius"),
 						rs.getBlob("content").getBinaryStream(),
 						rs.getString("filename"));
 				r.setUser(StringEscapeUtils.unescapeJava(r.getUser()));
+				r.setAddress(StringEscapeUtils.unescapeJava(r.getAddress()));
 				r.setTitle(StringEscapeUtils.unescapeJava(r.getTitle()));
 				r.setFilename(StringEscapeUtils.unescapeJava(r.getFilename()));
 				hsr.add(r);
@@ -150,12 +155,13 @@ public class DatabaseMethods {
 			ResultSet rs = stmt.executeQuery(SQL_QUERY);
 			while(rs.next()) {
 				r = new Report(Long.valueOf(Long.valueOf(rs.getInt("report_id"))),
-						rs.getString("username"), rs.getDouble("latitude"),
+						rs.getString("username"), rs.getString("address"), rs.getDouble("latitude"),
 						rs.getDouble("longitude"), rs.getString("title"),
 						rs.getDouble("radius"),
 						rs.getBlob("content").getBinaryStream(),
 						rs.getString("filename"));
 				r.setUser(StringEscapeUtils.unescapeJava(r.getUser()));
+				r.setAddress(StringEscapeUtils.unescapeJava(r.getAddress()));
 				r.setTitle(StringEscapeUtils.unescapeJava(r.getTitle()));
 				r.setFilename(StringEscapeUtils.unescapeJava(r.getFilename()));
 				hsr.add(r);
@@ -178,12 +184,13 @@ public class DatabaseMethods {
 			ResultSet rs = stmt.executeQuery(SQL_QUERY);
 			if(rs.next()) {
 				r = new Report(Long.valueOf(Long.valueOf(rs.getInt("report_id"))),
-						rs.getString("username"), rs.getDouble("latitude"),
+						rs.getString("username"), rs.getString("address"), rs.getDouble("latitude"),
 						rs.getDouble("longitude"), rs.getString("title"),
 						rs.getDouble("radius"),
 						rs.getBlob("content").getBinaryStream(),
 						rs.getString("filename"));
 				r.setUser(StringEscapeUtils.unescapeJava(r.getUser()));
+				r.setAddress(StringEscapeUtils.unescapeJava(r.getAddress()));
 				r.setTitle(StringEscapeUtils.unescapeJava(r.getTitle()));
 				r.setFilename(StringEscapeUtils.unescapeJava(r.getFilename()));
 			}
@@ -199,8 +206,7 @@ public class DatabaseMethods {
 		pattern = StringEscapeUtils.escapeJava(pattern);
 		String SQL_QUERY= "SELECT * FROM reports WHERE title LIKE '%"
 				+ pattern + "%' OR username LIKE '%" + pattern + "%' OR filename LIKE"
-				+ " '%" + pattern + "%'";
-		System.out.println(SQL_QUERY);
+				+ " '%" + pattern + "%' OR address LIKE '%" + pattern + "%'";
 		Statement stmt;
 		Report r = null;
 		HashSet<Report> rst = new HashSet<Report>();
@@ -209,12 +215,13 @@ public class DatabaseMethods {
 			ResultSet rs = stmt.executeQuery(SQL_QUERY);
 			if(rs.next()) {
 				r = new Report(Long.valueOf(Long.valueOf(rs.getInt("report_id"))),
-						rs.getString("username"), rs.getDouble("latitude"),
+						rs.getString("username"), rs.getString("address"), rs.getDouble("latitude"),
 						rs.getDouble("longitude"), rs.getString("title"),
 						rs.getDouble("radius"),
 						rs.getBlob("content").getBinaryStream(),
 						rs.getString("filename"));
 				r.setUser(StringEscapeUtils.unescapeJava(r.getUser()));
+				r.setAddress(StringEscapeUtils.unescapeJava(r.getAddress()));
 				r.setTitle(StringEscapeUtils.unescapeJava(r.getTitle()));
 				r.setFilename(StringEscapeUtils.unescapeJava(r.getFilename()));
 				rst.add(r);

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" href="css/header.css" type="text/css" />
+<script src="js/jquery-1.11.1.min.js"></script>
+<script src="js/load_header.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII" />
+<title>Advanced Search</title>
+</head>
+<body>
+	<div id="header"></div>
+	<h2 class="text-center">Advanced Search</h2>
+	<br />
+	<table class="centered">
+		<tr>
+			<td>
+				<form name="input" action="search_results.jsp" method="post">
+					<fieldset>
+						<input type="text" name="search_query"
+							onfocus="if (this.value==='Search: Reports/Evacuation Events') this.value=''"
+							value="Search: Reports/Evacuation Events"
+							onblur="if (this.value=='') this.value='Search: Reports/Evacuation Events'"
+							size="60" /><br /> <br />
+						<p>Select categories to search by:</p>
+						<input type="checkbox" name="vehicle" value="title"> Title<br />
+						<input type="checkbox" name="vehicle" value="address">
+						Address<br /> <input type="checkbox" name="vehicle"
+							value="filename"> Filename<br /> <input type="checkbox"
+							name="vehicle" value="username"> Username<br /><br />
+						<div class="text-center">
+							<select name="continents">
+								<option value="choose">Choose a continent...</option>
+								<option value="northamerica">North America</option>
+								<option value="southamerica">South America</option>
+								<option value="europe">Europe</option>
+								<option value="asia">Asia</option>
+								<option value="africa">Africa</option>
+								<option value="australia">Australia</option>
+							</select> <br /><br />
+							<input type="submit" value="Search" />
+
+						</div>
+
+					</fieldset>
+				</form>
+			</td>
+		</tr>
+	</table>
+
+</body>
+</html>

@@ -5,6 +5,7 @@ import java.io.InputStream;
 public class Report {
 	private Long _id;
 	private String username;
+	private String address;
 	private double latitude;
 	private double longitude;
 	private double radius;
@@ -12,11 +13,12 @@ public class Report {
 	private InputStream content;
 	private String filename;
 	
-	public Report(Long _id, String user, double latitude, double longitude,
+	public Report(Long _id, String user, String address, double latitude, double longitude,
 			String title, double radius, InputStream content, String filename) {
 		super();
 		this._id = _id;
 		this.username = user;
+		this.address = address;
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.title = title;
@@ -100,5 +102,13 @@ public class Report {
 
 	public void setFilename(String filename) {
 		this.filename = filename;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 }

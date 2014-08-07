@@ -14,7 +14,7 @@
 	<div id="header"></div>
 	<h2 class="text-center"><%=request.getParameter("username")%></h2>
 	<%@ page import="java.util.*"%>
-	<%@ page import="testPackage.*"%>
+	<%@ page import="servlets.*"%>
 	<%@ page import="dbObjects.*"%>
 	<%
 		UserVariables.username = request.getParameter("username");

@@ -1,12 +1,10 @@
-<%@page import="testPackage.DatabaseMethods"%>
+<%@page import="servlets.DatabaseMethods"%>
 <%@ page language="java" contentType="text/html; charset=US-ASCII"
     pageEncoding="US-ASCII"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css"/>
-<link rel="stylesheet" href="css/header.css" type="text/css"/>
-<script src="js/load_header.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <title>Login</title>
 </head>

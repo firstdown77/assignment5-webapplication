@@ -1,4 +1,4 @@
-package testPackage;
+package servlets;
 
 
 public class UserVariables {
