@@ -6,43 +6,7 @@
 <link rel="stylesheet" href="css/header.css" type="text/css" />
 <script src="js/jquery-1.11.1.min.js"></script>
 <script src="js/load_header.js"></script>
-<script>
-	function doGeoCode(address, lat, lon) {
-		//If no latitude or longitude were provided and an address was provided,
-		//then normal geocode, i.e. convert address to geo-coordinates.
-		if ((($('#latitude').val() === "Latitude") || ($('#longitude').val() === "Longitude"))
-				&& ($('#address').val() !== "Address")) {
-			var result = $
-					.ajax({
-						url : "https://maps.googleapis.com/maps/api/geocode/json?address="
-								+ address
-								+ "&key=AIzaSyBPihpCUn2xSaRqNv9KM1_MEAf-iS6sJ-Q",
-						type : "get",
-						async : false,
-						data : {}
-					}).responseText;
-			var lat = JSON.parse(result).results[0].geometry.location.lat;
-			var lng = JSON.parse(result).results[0].geometry.location.lng;
-			$('#latitude').val(lat);
-			$('#longitude').val(lng);
-		}
-		//If no address was provided and a latitude and longitude were provided,
-		//then reverse geocode, i.e. convert geo-coordinates to address.
-		else if (($('#address').val() === "Address")
-				&& ($('#latitude').val() !== "Latitude")
-				&& ($('#longitude').val() !== "Longitude")) {
-			var result = $
-					.ajax({
-						url : "https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=AIzaSyBPihpCUn2xSaRqNv9KM1_MEAf-iS6sJ-Q",
-						type : "get",
-						async : false,
-						data : {}
-					}).responseText;
-			var formatted_address = JSON.parse(result).results[0].formatted_address;
-			$('#address').val(formatted_address);
-		}
-	}
-</script>
+<script src="js/geocoder.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII" />
 <title>Create Report</title>
 </head>
@@ -50,7 +14,7 @@
 	<div id="header"></div>
 	<h2 class="text-center">Create Report</h2>
 	<br />
-	<form name="input" action="view_report" method="post"
+	<form name="input" action="view_report?action=create" method="post"
 		class="text-center" enctype="multipart/form-data">
 		<input type="text" name="title"
 			onfocus="if (this.value==='Title') this.value=''" value="Title"
@@ -70,8 +34,12 @@
 			onfocus="if (this.value==='Radius (km)') this.value=''" value="Radius (km)"
 			onblur="if (this.value=='') this.value='Radius (km)'" /><br />
 		<br />
+		 <textarea name="textcontent" rows="4" cols="50" 
+		 onfocus="if (this.value==='Write report content...') this.value=''"
+		 onblur="if (this.value=='') this.value='Write report content...'"
+		 >Write report content...</textarea><br /><br />
 		<center>
-			Content: &nbsp;&nbsp;<input type="file" style="display:inline;" name="content"
+			Additional Content: &nbsp;&nbsp;<input type="file" style="display:inline;" name="content"
 				onfocus="if (this.value==='Content') this.value=''" value="Content"
 				onblur="if (this.value=='') this.value='Content'" />
 		</center>
@@ -79,7 +47,6 @@
 		<br /> <input type="submit"
 			onclick="doGeoCode(document.getElementById('address').value, document.getElementById('latitude').value, document.getElementById('longitude').value)"
 			value="Create Report" />
-		<!-- 1600+Amphitheatre+Parkway,+Mountain+View,+CA -->
 	</form>
 </body>
 </html>

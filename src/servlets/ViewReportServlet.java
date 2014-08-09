@@ -20,7 +20,8 @@ public class ViewReportServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 8522932174797318262L;
 
-	//This method is used upon existing report selection.
+	//This method is used upon existing report selection.  
+	//It is also called by the doPost() method below.
 	@Override
 	public void doGet(HttpServletRequest request,
 			HttpServletResponse response)
@@ -28,31 +29,52 @@ public class ViewReportServlet extends HttpServlet {
 		
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		long reportID = Long.parseLong(request.getParameter("report_id"));
+		long reportID;
+		String updateMessage = "";
+		if (request.getAttribute("updateResult") != null) {
+			Boolean updateResult = (Boolean) request.getAttribute("updateResult");
+			if (updateResult == true) {
+				updateMessage = "Success.  You have updated the report.";
+			}
+			else if (updateResult == false) {
+				updateMessage = "Whoops, the result was not updated successfully.";
+			}
+		}
+		if (request.getParameter("report_id") == null) {
+			reportID = (Long) request.getAttribute("report_id");
+		}
+		else {
+			reportID = Long.parseLong(request.getParameter("report_id"));
+		}
 		DatabaseMethods db = new DatabaseMethods();
 		Report r = db.getReportById(reportID);
 		
 	    out.println
 	      ("<!DOCTYPE html>\n" +
 	       "<html>\n" +
-	       "<head><title>View Report</title></head>\n" +
-	       "<link rel='stylesheet' href='css/bootstrap.min.css' type='text/css'/>" +
-	       "<link rel='stylesheet' href='css/header.css' type='text/css'/>" + 
-	       "<script src='js/jquery-1.11.1.min.js'></script>" +
-	       "<script src='js/load_header.js'></script>" +
-	       "<meta http-equiv='Content-Type' content='text/html; charset=US-ASCII' />" +
-	       "<title>View Report</title>" + 
+	       "<head>\n" +
+	       "<link rel='stylesheet' href='css/bootstrap.min.css' type='text/css'/>\n" +
+	       "<link rel='stylesheet' href='css/header.css' type='text/css'/>\n" + 
+	       "<script src='js/jquery-1.11.1.min.js'></script>\n" +
+	       "<script src='js/load_header.js'></script>\n" +
+	       "<meta http-equiv='Content-Type' content='text/html; charset=US-ASCII' />\n" +
+	       "<title>View Report</title></head>\n" +
 	       "<body bgcolor=\"#fdf5e6\">\n" +
 	       "<div id='header'></div>" +
 	       "<h1 class='text-center'>View Report</h1>\n" +
-	       "<p class='text-center'>" + r.getTitle() + "</p>\n\n" +
-	       "<p class='text-center'>" + r.getAddress() + "</p>\n" +
-	       "<p class='text-center'>" + r.getLatitude() + "</p>\n" +
-	       "<p class='text-center'>" + r.getLongitude() + "</p>\n" +
-	       "<p class='text-center'>" + r.getRadius() + "</p>\n" +
-	       "<p class='text-center'>" + r.getUser() + "</p>\n" +
-	       "<p class='text-center'>" + "<a href='view_file?filename=" + r.getFilename() + "' target='_blank'>" + r.getFilename() + "</a>" + "</p>\n" +
-	       "</body></html>");
+	       "<p class='text-center' id='status_message' style='display:none'>" + updateMessage + "</p>\n" + 
+	       "<script>$('#status_message').fadeIn(400).delay(1500).fadeOut(400);</script>\n" +
+	       "<p class='text-center'>" + (r.getTitle() == null ? "No Title Provided" : r.getTitle()) + "</p>\n\n" +
+	       "<p class='text-center'>" + (r.getTextcontent() == null ? "No Text Content Provided" : r.getTextcontent()) + "</p>\n\n" +
+	       "<p class='text-center'>" + (r.getAddress() == null ? "No Address Provided" : r.getAddress()) + "</p>\n" +
+	       "<p class='text-center'>" + (r.getLatitude() == null ? "No Latitude Provided" : r.getLatitude()) + "</p>\n" +
+	       "<p class='text-center'>" + (r.getLongitude() == null ? "No Longitude Provided" : r.getLongitude()) + "</p>\n" +
+	       "<p class='text-center'>" + (r.getRadius() == null ? "No Radius Provided" : r.getRadius()) + "</p>\n" +
+	       "<p class='text-center'>" + (r.getUser() == null ? "Username Unavailable" : r.getUser()) + "</p>\n" +
+	       "<p class='text-center'>" + (r.getFilename() == null ? "No File Content Provided" : "<a href='view_file?filename=" + 
+	       r.getFilename() + "' target='_blank'>" + r.getFilename() + "</a>") +
+	       "</p>\n<p class='text-center'><a href='update_report.jsp?update_report_id=" + r.get_id() + "'>Update Report</a> | <a href='my_account.jsp?username=&delete_report_id=" + r.get_id() + "'>Delete Report</a>\n"
+	       		+ "</p>\n</body></html>");
 	}
 	
 	//This method is used upon report creation.
@@ -62,12 +84,17 @@ public class ViewReportServlet extends HttpServlet {
 					throws ServletException, IOException {
 		
 		response.setContentType("text/html");
-		PrintWriter out = response.getWriter();
-		String title = request.getParameter("title");
+//		PrintWriter out = response.getWriter();
+		String title;
 		Double latitude;
 		Double longitude;
 		Double radius;
 		String address;
+		String textcontent;
+		Long report_id = null;
+		if (request.getParameter("report_id") != null) {
+			report_id = Long.parseLong(request.getParameter("report_id"));
+		}
 		try {
 			latitude = Double.parseDouble(request.getParameter("latitude"));
 		}
@@ -92,36 +119,35 @@ public class ViewReportServlet extends HttpServlet {
 		else {
 			address = null;
 		}
+		if (!request.getParameter("textcontent").equals("Write report content...")) {
+			textcontent = request.getParameter("textcontent");
+		}
+		else {
+			textcontent = null;
+		}
+		if (!request.getParameter("title").equals("Title")) {
+			title = request.getParameter("title");
+		}
+		else {
+			title = null;
+		}
 		String username = UserVariables.username;
 		Part filePart = request.getPart("content");
 		InputStream fileContent = filePart.getInputStream();
 		String fileName = getFilename(filePart);
-		Report r = new Report(null, username, address, latitude, longitude,
-				title, radius, fileContent, fileName);
+		Report r = new Report(report_id, username, address, latitude, longitude,
+				title, radius, textcontent, fileContent, fileName);
+		String action = request.getParameter("action");
 		DatabaseMethods db = new DatabaseMethods();
-		db.insertReport(r);
-	    out.println
-	      ("<!DOCTYPE html>\n" +
-	       "<html>\n" +
-	       "<head><title>View Report</title>\n" +
-	       "<link rel='stylesheet' href='css/bootstrap.min.css' type='text/css'/>" +
-	       "<link rel='stylesheet' href='css/header.css' type='text/css'/>" + 
-	       "<script src='js/jquery-1.11.1.min.js'></script>" +
-	       "<script src='js/load_header.js'></script>" +
-	       "<script src='js/geocoder.js'></script>" +
-	       "<meta http-equiv='Content-Type' content='text/html; charset=US-ASCII' />" +
-	       "<title>View Report</title></head>" + 
-	       "<body bgcolor=\"#fdf5e6\">\n" +
-	       "<div id='header'></div>" +
-	       "<h1 class='text-center'>View Report</h1>\n" +
-	       "<p class='text-center'>" + title + "</p>\n" +
-	       "<p class='text-center'>" + address + "</p>\n" +
-	       "<p class='text-center'>" + latitude + "</p>\n" +
-	       "<p class='text-center'>" + longitude + "</p>\n" +
-	       "<p class='text-center'>" + radius + "</p>\n" +
-	       "<p class='text-center'>" + username + "</p>\n" +
-	       "<p class='text-center'>" + "<a href='view_file?filename=" + fileName + "' target='_blank'>" + fileName + "</a>" + "</p>\n" +
-	       "</body></html>");
+		if (action.equals("create")) {
+			report_id = db.insertReport(r);
+		}
+		else if (action.equals("update")) {
+			boolean updateResult = db.updateReport(r);
+			request.setAttribute("updateResult", updateResult);
+		}
+		request.setAttribute("report_id", report_id);
+		doGet(request, response);
 	}
 
 	private String getFilename(Part part) {

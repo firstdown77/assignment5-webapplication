@@ -11,12 +11,25 @@
 <title>Login</title>
 </head>
 <body>
-	<div id="header"></div>
-	<h2 class="text-center"><%=request.getParameter("username")%></h2>
 	<%@ page import="java.util.*"%>
 	<%@ page import="servlets.*"%>
 	<%@ page import="dbObjects.*"%>
+	<div id="header"></div>
+	<h2 class="text-center"><%=request.getParameter("username")%></h2>
+	<p id="status_message" class="text-center" style='display:none'></p>
 	<%
+		if (request.getParameter("delete_report_id") != null) {
+			DatabaseMethods dbMethods = new DatabaseMethods();
+			boolean result = dbMethods.deleteReport(Long.parseLong(request.getParameter("delete_report_id")));
+			if (result == true) {
+				%><script>$("#status_message").text("The report was successfully deleted.");
+				$('#status_message').fadeIn(400).delay(1500).fadeOut(400);</script><%
+			}
+			else {
+				%><script>$("#status_message").text("Whoops, we did not succeed in deleting the report.");
+				$('#status_message').fadeIn(400).delay(1500).fadeOut(400);</script><%
+			}
+		}
 		UserVariables.username = request.getParameter("username");
 	%>
 
@@ -46,18 +59,18 @@
 	<%
 		HashSet<Report> hsr = db.getReportsByUser(request.getParameter("username"));
 	%>
+	<%
+		if (hsr.isEmpty()) {
+	%>
+	<p>You have not submitted any reports yet.</p>
+	<%
+		} else {
+	%>
 	<ul>
-		<%
-			if (hsr.isEmpty()) {
-		%>
-		<p>You have not submitted any reports yet.</p>
-		<%
-			} else {
-		%>
 		<%
 			for (Report r : hsr) {
 		%>
-		<li><a href="view_report?report_id=<%=r.get_id()%>"><%=r.getTitle()%></a></li>
+		<li><a href="view_report?report_id=<%=r.get_id()%>"><%=(r.getTitle() == null ? "No Title Provided" : r.getTitle())%></a></li>
 		<%
 			}
 		%>

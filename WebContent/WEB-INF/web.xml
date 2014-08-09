@@ -5,20 +5,9 @@
 	id="WebApp_ID" version="3.0">
 	<display-name>assignment5-webapplication</display-name>
 	<welcome-file-list>
-		<welcome-file>index.html</welcome-file>
-		<welcome-file>index.htm</welcome-file>
 		<welcome-file>index.jsp</welcome-file>
 		<welcome-file>default.html</welcome-file>
 		<welcome-file>default.htm</welcome-file>
 		<welcome-file>default.jsp</welcome-file>
 	</welcome-file-list>
-	<!-- Use the URL http://hostName/appName/test2 for servlets.TestServlet -->
-	<servlet>
-		<servlet-name>Test</servlet-name>
-		<servlet-class>servlets.TestServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>Test</servlet-name>
-		<url-pattern>/test2</url-pattern>
-	</servlet-mapping>
 </web-app>

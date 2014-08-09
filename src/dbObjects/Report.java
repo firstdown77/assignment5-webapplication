@@ -6,15 +6,16 @@ public class Report {
 	private Long _id;
 	private String username;
 	private String address;
-	private double latitude;
-	private double longitude;
-	private double radius;
+	private Double latitude;
+	private Double longitude;
+	private Double radius;
 	private String title;
+	private String textcontent;
 	private InputStream content;
 	private String filename;
 	
-	public Report(Long _id, String user, String address, double latitude, double longitude,
-			String title, double radius, InputStream content, String filename) {
+	public Report(Long _id, String user, String address, Double latitude, Double longitude,
+			String title, Double radius, String textcontent, InputStream content, String filename) {
 		super();
 		this._id = _id;
 		this.username = user;
@@ -23,23 +24,24 @@ public class Report {
 		this.longitude = longitude;
 		this.title = title;
 		this.radius = radius;
+		this.textcontent = textcontent;
 		this.content = content;
 		this.filename = filename;
 	}
 	
-	public double getLatitude() {
+	public Double getLatitude() {
 		return latitude;
 	}
 
-	public void setLatitude(double latitude) {
+	public void setLatitude(Double latitude) {
 		this.latitude = latitude;
 	}
 
-	public double getLongitude() {
+	public Double getLongitude() {
 		return longitude;
 	}
 
-	public void setLongitude(double longitude) {
+	public void setLongitude(Double longitude) {
 		this.longitude = longitude;
 	}
 
@@ -80,11 +82,11 @@ public class Report {
 		this.title = title;
 	}
 
-	public double getRadius() {
+	public Double getRadius() {
 		return radius;
 	}
 
-	public void setRadius(double radius) {
+	public void setRadius(Double radius) {
 		this.radius = radius;
 	}
 
@@ -110,5 +112,13 @@ public class Report {
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+
+	public String getTextcontent() {
+		return textcontent;
+	}
+
+	public void setTextcontent(String textcontent) {
+		this.textcontent = textcontent;
 	}
 }

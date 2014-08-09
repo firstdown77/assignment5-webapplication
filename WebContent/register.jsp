@@ -53,15 +53,15 @@
 				<h2 class="text-center">Register</h2>
 				<br />
 				<form name="input" class="text-center">
-					<input type="text" name="firstname" onfocus="if (this.value==='First Name') this.value=''"
+					<input type="text" name="firstname" onfocus="if (this.value=='First Name') this.value=''"
 						value="First Name"
 						onblur="if (this.value=='') this.value='First Name'" /><br /> <br />
-					<input type="text" name="lastname" onfocus="if (this.value==='Last Name') this.value=''"
+					<input type="text" name="lastname" onfocus="if (this.value=='Last Name') this.value=''"
 						value="Last Name" onblur="if (this.value=='') this.value='Last Name'" />
 					<br /> <br /> <input type="text" name="username"
-						onfocus="if (this.value==='Username) this.value=''" value="Username"
+						onfocus="if (this.value=='Username) this.value=''" value="Username"
 						onblur="if (this.value=='') this.value='Username'" /><br /> <br />
-					<input type="password" name="password" onfocus="if (this.value==='Password') this.value=''"
+					<input type="password" name="password" onfocus="if (this.value=='Password') this.value=''"
 						value="Password" onblur="if (this.value=='') this.value='Password'" /><br />
 					<br /> <input type="submit" id="btnSubmit" name="btnSubmit"
 						value="Register" />

@@ -57,9 +57,8 @@ body {
 
         map = new google.maps.Map(document.getElementById("map-canvas"),
             mapOptions);
-        var count = 0;
-        <%for (Report r : allReports) {%>
-        	count++;
+        <%for (Report r : allReports) {
+        	if (r.getLatitude() != null && r.getLongitude() != null) { %>
         	var CONVERTTOKM = 1000;
         	var currCenter = new google.maps.LatLng(<%=r.getLatitude()%> , <%=r.getLongitude()%>);
         	var currRadius = <%=r.getRadius()%> * CONVERTTOKM;
@@ -85,9 +84,10 @@ body {
             google.maps.event.addListener(marker, 'click', function() {
                 window.location.href = "view_report?report_id=<%=r.get_id()%>";
 			});
-	<%}%>
-		}
-		google.maps.event.addDomListener(window, 'load', initialize);
+			<%}
+        }%>
+	}
+	google.maps.event.addDomListener(window, 'load', initialize);
 	</script>
 	<div class="text-center">
 		<select name="continents">
@@ -123,8 +123,6 @@ body {
 		</script>
 	</div>
 	<br />
-	<div id="map-canvas" />
-	<ul>
 		<%
 			if (allReports.isEmpty()) {
 		%>
@@ -132,13 +130,6 @@ body {
 		<%
 			}
 		%>
-		<%
-			for (Report r : allReports) {
-		%>
-		<li><a href="view_report?report_id=<%=r.get_id()%>"><%=r.getTitle()%></a></li>
-		<%
-			}
-		%>
-	</ul>
+	<div id="map-canvas"></div>
 </body>
 </html>

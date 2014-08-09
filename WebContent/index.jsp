@@ -22,9 +22,9 @@
 <h2 class="text-center">Log In</h2><br />
 <p class="text-center">Or, <a href="register.jsp">Register</a></p>
 <form name="input" action="my_account.jsp" method="post" class="text-center">
-	<input type="text" name="username" onfocus="if (this.value==='Username') this.value=''" value="Username"
+	<input type="text" name="username" onfocus="if (this.value=='Username') this.value=''" value="Username"
 	 onblur="if (this.value=='') this.value='Username'"/><br /><br />
-	<input type="password" name="password" onfocus="if (this.value==='Password') this.value=''" value="Password"
+	<input type="password" name="password" onfocus="if (this.value=='Password') this.value=''" value="Password"
 	 onblur="if (this.value=='') this.value='Password'"/><br /><br />
 	<input type="submit" id="btnSubmit" name="btnSubmit" value="Log In" />
 </form>
