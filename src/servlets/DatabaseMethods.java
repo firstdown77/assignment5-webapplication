@@ -265,6 +265,43 @@ public class DatabaseMethods {
 		return rst;
 	}
 	
+	public HashSet<Report> advancedSearchReports(String pattern, String[] categories) {
+		open();
+		pattern = StringEscapeUtils.escapeJava(pattern);
+		String whereClause = "";
+		for (int i = 0; i < categories.length; i++) {
+			whereClause += categories[i] + " LIKE '%" + pattern + "%'";
+			if (i != categories.length - 1) {
+				whereClause += " OR ";
+			}
+		}	
+		String SQL_QUERY= "SELECT * FROM reports WHERE " + whereClause;
+		Statement stmt;
+		Report r = null;
+		HashSet<Report> rst = new HashSet<Report>();
+		try {
+			stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(SQL_QUERY);
+			while(rs.next()) {
+				r = new Report(Long.valueOf(Long.valueOf(rs.getInt("report_id"))),
+						rs.getString("username"), rs.getString("address"), (Double)rs.getObject("latitude"),
+						(Double)rs.getObject("longitude"), rs.getString("title"),
+						(Double)rs.getObject("radius"), rs.getString("textcontent"),
+						rs.getBlob("content").getBinaryStream(),
+						rs.getString("filename"));
+				r.setUser(StringEscapeUtils.unescapeJava(r.getUser()));
+				r.setAddress(StringEscapeUtils.unescapeJava(r.getAddress()));
+				r.setTitle(StringEscapeUtils.unescapeJava(r.getTitle()));
+				r.setTextcontent(StringEscapeUtils.unescapeJava(r.getTextcontent()));
+				r.setFilename(StringEscapeUtils.unescapeJava(r.getFilename()));
+				rst.add(r);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return rst;
+	}
+	
 	//	Long _id;
 	//	String username;
 	//	String address;

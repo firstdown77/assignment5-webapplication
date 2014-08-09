@@ -63,7 +63,7 @@ public class ViewReportServlet extends HttpServlet {
 	       "<div id='header'></div>" +
 	       "<h1 class='text-center'>View Report</h1>\n" +
 	       "<p class='text-center' id='status_message' style='display:none'>" + updateMessage + "</p>\n" + 
-	       "<script>$('#status_message').fadeIn(400).delay(1500).fadeOut(400);</script>\n" +
+	       "<script>$('#status_message').fadeIn(300).delay(1500).fadeTo(300, 0);</script>\n" +
 	       "<p class='text-center'>" + (r.getTitle() == null ? "No Title Provided" : r.getTitle()) + "</p>\n\n" +
 	       "<p class='text-center'>" + (r.getTextcontent() == null ? "No Text Content Provided" : r.getTextcontent()) + "</p>\n\n" +
 	       "<p class='text-center'>" + (r.getAddress() == null ? "No Address Provided" : r.getAddress()) + "</p>\n" +

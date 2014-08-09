@@ -10,8 +10,8 @@ longitude DOUBLE,
 latitude DOUBLE,
 radius DOUBLE,
 title VARCHAR(100),
-textcontent MEDIUMTEXT,
-content LONGBLOB,
+textcontent TINYTEXT,
+content MEDIUMBLOB,
 filename VARCHAR(100)
 );
 

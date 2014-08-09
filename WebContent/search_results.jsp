@@ -1,5 +1,6 @@
-<?xml version="1.0" encoding="US-ASCII" ?>
 <%@page import="servlets.DatabaseMethods"%>
+<%@ page import="java.util.*"%>
+<%@ page import="dbObjects.*"%>
 <%@ page language="java" contentType="text/html; charset=US-ASCII"
 	pageEncoding="US-ASCII"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -14,8 +15,6 @@
 <title>Search Results</title>
 </head>
 <body>
-	<%@ page import="java.util.*"%>
-	<%@ page import="dbObjects.*"%>
 	<div id="header"></div>
 	<h2 class="text-center">Search Results</h2>
 	<%
@@ -51,8 +50,8 @@
 		<%
 			}
 		%>
-		</table>
-		<%
+	</table>
+	<%
 		} else {
 	%>
 	<p class="text-center">Whoops, there are no results. Please try

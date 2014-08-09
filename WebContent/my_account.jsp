@@ -23,11 +23,11 @@
 			boolean result = dbMethods.deleteReport(Long.parseLong(request.getParameter("delete_report_id")));
 			if (result == true) {
 				%><script>$("#status_message").text("The report was successfully deleted.");
-				$('#status_message').fadeIn(400).delay(1500).fadeOut(400);</script><%
+				$('#status_message').fadeIn(300).delay(1500).fadeTo(300, 0);</script><%
 			}
 			else {
 				%><script>$("#status_message").text("Whoops, we did not succeed in deleting the report.");
-				$('#status_message').fadeIn(400).delay(1500).fadeOut(400);</script><%
+				$('#status_message').fadeIn(300).delay(1500).fadeTo(300, 0);</script><%
 			}
 		}
 		UserVariables.username = request.getParameter("username");
