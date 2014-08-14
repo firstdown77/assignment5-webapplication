@@ -2,11 +2,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
-<link rel="stylesheet" href="css/header.css" type="text/css" />
-<script src="js/jquery-1.11.1.min.js"></script>
-<script src="js/load_header.js"></script>
-<script src="js/geocoder.js"></script>
+<link rel="stylesheet" href="/assignment5-webapplication/css/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" href="/assignment5-webapplication/css/header.css" type="text/css" />
+<script src="/assignment5-webapplication/js/jquery-1.11.1.min.js"></script>
+<script src="/assignment5-webapplication/js/load_header.js"></script>
+<script src="/assignment5-webapplication/js/geocoder.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII" />
 <title>Create Report</title>
 </head>
@@ -21,15 +21,13 @@
 			onblur="if (this.value=='') this.value='Title'" /><br />
 		<br /> <input type="text" size="50" name="address" id="address"
 			onfocus="if (this.value==='Address') this.value=''" value="Address"
-			onblur="if (this.value=='') this.value='Address'" /> &nbsp;&nbsp; Or &nbsp;&nbsp;
-			<div style="display:inline; width: 10px;">
-				<input type="text" name="latitude" id="latitude"
+			onblur="if (this.value=='') this.value='Address'" /><br />
+				<input type="hidden" name="latitude" id="latitude"
 				onfocus="if (this.value==='Latitude') this.value=''" value="Latitude"
 				onblur="if (this.value=='') this.value='Latitude'" />
-				<input type="text" style="position:relative;" name="longitude" id="longitude"
+				<input type="hidden" style="position:relative;" name="longitude" id="longitude"
 				onfocus="if (this.value==='Longitude') this.value=''"
 				value="Longitude" onblur="if (this.value=='') this.value='Longitude'" />
-			</div><br />
 		<br /> <input type="text" name="radius"
 			onfocus="if (this.value==='Radius (km)') this.value=''" value="Radius (km)"
 			onblur="if (this.value=='') this.value='Radius (km)'" /><br />

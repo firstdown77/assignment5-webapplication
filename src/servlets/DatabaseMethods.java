@@ -105,7 +105,9 @@ public class DatabaseMethods {
 			pst.executeUpdate();
 			ResultSet keys = pst.getGeneratedKeys();
 			if (keys.next()) {
-				return keys.getLong(1);
+				long toReturn = keys.getLong(1);
+				close();
+				return toReturn;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -262,6 +264,7 @@ public class DatabaseMethods {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		close();
 		return rst;
 	}
 	
@@ -299,6 +302,7 @@ public class DatabaseMethods {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		close();
 		return rst;
 	}
 	
@@ -378,26 +382,53 @@ public class DatabaseMethods {
 		return false;
 	}
 
+	public boolean createUserWrapper(User u) {
+		boolean result1 = insertUser(u);
+		boolean result2 = insertUserRole(u);
+		if (result1 == true && result2 == true) {
+			return true;
+		}
+		return false;
+	}
+	
+	private boolean insertUserRole(User u) {
+		open();
+		String SQL_QUERY = "INSERT INTO user_roles (username, rolename) VALUES (?, ?)";
+		PreparedStatement pst;
+		try {
+			pst = con.prepareStatement(SQL_QUERY);
+			pst.setString(1, u.getUsername());
+			pst.setString(2, "normal");
+			boolean result = (pst.executeUpdate()>0);
+			close();
+			return result;
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		close();
+		return false;
+	}
+
 	//	Long user_id;
 	//	String username;
 	//	String password_hash;
-	//	byte[] secretKey;
 	//	String firstName;
 	//	String lastName;
 	//	Date joinDate;
 	public boolean insertUser(User u) {
 		open();
-		String SQL_QUERY = "INSERT INTO users (username, password_hash, secretkey, firstname,"
-				+ " lastname, joindate) VALUES (?, ?, ?, ?, ?, ?)";
+		String SQL_QUERY = "INSERT INTO users (username, password_hash, firstname,"
+				+ " lastname, joindate) VALUES (?, ?, ?, ?, ?)";
 		PreparedStatement pst;
 		try {
 			pst = con.prepareStatement(SQL_QUERY);
 			pst.setString(1, u.getUsername());
-			pst.setBytes(2, u.getPassword());
-			pst.setBytes(3, u.getSecretKey());
-			pst.setString(4, u.getFirstName());
-			pst.setString(5, u.getLastName());
-			pst.setDate(6, u.getJoinDate());
+			pst.setString(2, u.getPassword());
+//			pst.setBytes(3, u.getSecretKey());
+			pst.setString(3, u.getFirstName());
+			pst.setString(4, u.getLastName());
+			pst.setDate(5, u.getJoinDate());
 			boolean result = (pst.executeUpdate()>0);
 			close();
 			return result;
@@ -421,8 +452,8 @@ public class DatabaseMethods {
 			ResultSet rs = stmt.executeQuery(SQL_QUERY);
 			if(rs.next()) {
 				u = new User(Long.valueOf(Long.valueOf(rs.getInt("user_id"))),
-						rs.getString("username"), rs.getBytes("password_hash"),
-						rs.getBytes("secretkey"), rs.getString("firstname"),
+						rs.getString("username"), rs.getString("password_hash"),
+						rs.getString("firstname"),
 						rs.getString("lastname"), rs.getDate("joindate"));
 			}
 		} catch (SQLException e) {
@@ -432,29 +463,29 @@ public class DatabaseMethods {
 		return u;
 	}
 
-	public boolean verifyPassword(String username, String password) {
-		User u = getUserByUsername(username);
-		try {
-			// create a cipher based upon Blowfish
-			Cipher cipher = Cipher.getInstance("Blowfish");
-			// get the secret key previously used
-			SecretKey secretkey = new SecretKeySpec(u.getSecretKey(), 0,
-					u.getSecretKey().length, "Blowfish");
-			// re-initialise the cipher to be in decrypt mode
-			cipher.init(Cipher.DECRYPT_MODE, secretkey);
-			// get encrypted message
-			byte[] encrypted = u.getPassword();
-			// decrypt message
-			byte[] decrypted = cipher.doFinal(encrypted);
-			if (password.equals(new String(decrypted))) {
-				return true;
-			}
-			else {
-				return false;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return false;
-	}
+//	public boolean verifyPassword(String username, String password) {
+//		User u = getUserByUsername(username);
+//		try {
+//			// create a cipher based upon Blowfish
+//			Cipher cipher = Cipher.getInstance("Blowfish");
+//			// get the secret key previously used
+//			SecretKey secretkey = new SecretKeySpec(u.getSecretKey(), 0,
+//					u.getSecretKey().length, "Blowfish");
+//			// re-initialise the cipher to be in decrypt mode
+//			cipher.init(Cipher.DECRYPT_MODE, secretkey);
+//			// get encrypted message
+//			byte[] encrypted = u.getPassword();
+//			// decrypt message
+//			byte[] decrypted = cipher.doFinal(encrypted);
+//			if (password.equals(new String(decrypted))) {
+//				return true;
+//			}
+//			else {
+//				return false;
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return false;
+//	}
 }

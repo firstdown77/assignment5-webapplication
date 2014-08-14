@@ -8,13 +8,13 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII" />
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
-<link rel="stylesheet" href="css/search_results.css" type="text/css" />
-<link rel="stylesheet" href="css/header.css" type="text/css" />
-<link rel="stylesheet" href="css/googlemapcode.css" type="text/css" />
-<script src="js/jquery-1.11.1.min.js"></script>
-<script src="js/load_header.js"></script>
-<script src="js/continentCenterCoords.js"></script>
+<link rel="stylesheet" href="/assignment5-webapplication/css/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" href="/assignment5-webapplication/css/search_results.css" type="text/css" />
+<link rel="stylesheet" href="/assignment5-webapplication/css/header.css" type="text/css" />
+<link rel="stylesheet" href="/assignment5-webapplication/css/googlemapcode.css" type="text/css" />
+<script src="/assignment5-webapplication/js/jquery-1.11.1.min.js"></script>
+<script src="/assignment5-webapplication/js/load_header.js"></script>
+<script src="/assignment5-webapplication/js/continentCenterCoords.js"></script>
 <script type="text/javascript"
 	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5VLYkZvLXln72Q2FaNEj6O3H2F0yZsVY">
 </script>
@@ -29,41 +29,27 @@
 		String[] checked = request.getParameterValues("advancedoption");
 		HashSet<String> possibleValues = new HashSet<String>(Arrays.asList(
 				"title", "address", "filename", "textcontent", "username"));
-		for (String s : checked) {
-			if (!possibleValues.contains(s)) {
-				throw new Exception("There is an illegal value in the checked list.");
+		HashSet<Report> resultSet;
+		boolean illegalValue = false;
+		if (checked != null) {
+			for (String s : checked) {
+				if (!possibleValues.contains(s)) {
+					illegalValue = true;
+				}
+			}
+			if (!illegalValue) {
+				resultSet = db.advancedSearchReports(query, checked);
+			}
+			else {
+				resultSet = new HashSet<Report>();
 			}
 		}
-		HashSet<Report> resultSet = db.advancedSearchReports(query, checked);
+		else {
+			resultSet = new HashSet<Report>();
+		}
 		if (!resultSet.isEmpty()) {
-	%>
-			<table border="1" class="normalborder">
-				<thead class="normalborder">
-					<tr>
-						<th class="normalborder">Title</th>
-						<th class="normalborder">User</th>
-						<th class="normalborder">Address</th>
-						<th class="normalborder">Text Content</th>
-						<th class="normalborder">File Content</th>
-		
-					</tr>
-				</thead>
-				<%
-					for (Report r : resultSet) {
-				%>
-				<tr class="normalborder">
-					<td class="normalborder"><a
-						href="view_report?report_id=<%=r.get_id()%>"><%=(r.getTitle() == null ? "No Title Provided" : r.getTitle())%></a></td>
-					<td class="normalborder"><%=(r.getUser() == null ? "Username Unavailable" : r.getUser())%></td>
-					<td class="normalborder"><%=(r.getAddress() == null ? "No Address Provided" : r.getAddress())%></td>
-					<td class="normalborder"><%=(r.getTextcontent() == null ? "No Text Content Provided" : r.getTextcontent())%></td>
-					<td class="normalborder"><%=(r.getFilename() == null ? "No Title Provided" : "<a href='view_file?filename=" + r.getFilename() + "' target='_blank'>" + r.getFilename() + "</a>") %></td>
-				</tr>
-				<%
-					}
-				%>
-			</table><br />
-				<div class="text-center">
+	%>	
+		<div class="text-center">
 			<select name="continents">
 				<option value="choose">Choose a continent...</option>
 				<option value="northamerica">North America</option>
@@ -156,6 +142,10 @@
 		}
 		google.maps.event.addDomListener(window, 'load', initialize);
 		</script> <!-- End script with Java -->
+	<%
+		} else if (checked == null) {
+	%>
+			<p class="text-center">Whoops, you forgot to select categories to search by.</p>
 	<%
 		} else {
 	%>

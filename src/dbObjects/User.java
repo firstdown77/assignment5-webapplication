@@ -5,8 +5,8 @@ import java.sql.Date;
 public class User {
 	private Long user_id;
 	private String username;
-	private byte[] password_hash;
-	private byte[] secretKey;
+	private String password_hash;
+//	private byte[] secretKey;
 	private String firstName;
 	private String lastName;
 	private Date joinDate;
@@ -20,7 +20,7 @@ public class User {
 	 * @param lastName
 	 * @param joinDate
 	 */
-	public User(Long user_id, String username, byte[] password_hash, byte[] secretKey,
+	public User(Long user_id, String username, String password_hash,
 			String firstName, String lastName, Date joinDate) {
 		this.user_id = user_id;
 		this.username = username;
@@ -28,7 +28,7 @@ public class User {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.joinDate = joinDate;
-		this.secretKey = secretKey;
+//		this.secretKey = secretKey;
 	}
 
 	public Long getUser_id() {
@@ -69,13 +69,13 @@ public class User {
 	/**
 	 * @return the password
 	 */
-	public byte[] getPassword() {
+	public String getPassword() {
 		return password_hash;
 	}
 	/**
 	 * @param password the password to set
 	 */
-	public void setPassword(byte[] password_hash) {
+	public void setPassword(String password_hash) {
 		this.password_hash = password_hash;
 	}
 	/**
@@ -103,11 +103,11 @@ public class User {
 		this.lastName = lastName;
 	}
 
-	public byte[] getSecretKey() {
-		return secretKey;
-	}
-
-	public void setSecretKey(byte[] secretKey) {
-		this.secretKey = secretKey;
-	}
+//	public byte[] getSecretKey() {
+//		return secretKey;
+//	}
+//
+//	public void setSecretKey(byte[] secretKey) {
+//		this.secretKey = secretKey;
+//	}
 }

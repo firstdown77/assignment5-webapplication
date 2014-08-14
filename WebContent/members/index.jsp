@@ -1,3 +1,8 @@
+<%@ page import="java.util.*"%>
+<%@ page import="servlets.*"%>
+<%@ page import="dbObjects.*"%>
+<%@ page import="java.security.Principal" %>
+<%@ page import="java.text.SimpleDateFormat" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,11 +16,15 @@
 <title>Login</title>
 </head>
 <body>
-	<%@ page import="java.util.*"%>
-	<%@ page import="servlets.*"%>
-	<%@ page import="dbObjects.*"%>
 	<div id="header"></div>
-	<h2 class="text-center"><%=request.getParameter("username")%></h2>
+	<% 
+	Principal p = request.getUserPrincipal();
+	String username = p.getName();
+	DatabaseMethods db = new DatabaseMethods();
+	User u = db.getUserByUsername(username);
+	SimpleDateFormat sdf = new SimpleDateFormat("M/d/yyyy");
+	%>
+	<h2 class="text-center"><%=username%></h2>
 	<p id="status_message" class="text-center" style='display:none'></p>
 	<%
 		if (request.getParameter("delete_report_id") != null) {
@@ -30,23 +39,20 @@
 				$('#status_message').fadeIn(300).delay(1500).fadeTo(300, 0);</script><%
 			}
 		}
-		UserVariables.username = request.getParameter("username");
 	%>
 
-	<h2><%=request.getParameter("firstname")%>
-		<%=request.getParameter("lastname")%></h2>
+	<h3 class="text-center"><%="Welcome " + u.getFirstName() + " " + u.getLastName() + ", member since " + sdf.format(u.getJoinDate()) + "." %></h3>
 	<ul>
-		<li>View All Users</li>
-		<li><a href="view_all_reports.jsp">View All Reports</a></li>
+		<li><a href="members/view_all_users.jsp">View All Users</a></li>
+		<li><a href="members/view_all_reports.jsp">View All Reports</a></li>
 		<li>View All Evacuation Events</li>
 		<li>Delete Account</li>
-		<li><a href="create_report.html">Create New Report</a></li>
+		<li><a href="members/create_report.html">Create New Report</a></li>
 		<li>My Registrations for Evacuation Events</li>
 		<%
-			if (request.getParameter("username").equals(UserVariables.adminUsername)) {
+			if (username.equals(UserVariables.adminUsername)) {
 		%>
-		<li><a href="create_evacuation_event.html">Create Evacuation
-				Event</a></li>
+		<li>Create Evacuation Event</li>
 		<%
 			}
 		%>
@@ -54,10 +60,7 @@
 	<p>
 	<h3>My Reports</h3>
 	<%
-		DatabaseMethods db = new DatabaseMethods();
-	%>
-	<%
-		HashSet<Report> hsr = db.getReportsByUser(request.getParameter("username"));
+		HashSet<Report> hsr = db.getReportsByUser(username);
 	%>
 	<%
 		if (hsr.isEmpty()) {
@@ -70,7 +73,7 @@
 		<%
 			for (Report r : hsr) {
 		%>
-		<li><a href="view_report?report_id=<%=r.get_id()%>"><%=(r.getTitle() == null ? "No Title Provided" : r.getTitle())%></a></li>
+		<li><a href="members/view_report?report_id=<%=r.get_id()%>"><%=(r.getTitle() == null ? "No Title Provided" : r.getTitle())%></a></li>
 		<%
 			}
 		%>

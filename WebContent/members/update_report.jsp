@@ -6,16 +6,16 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
-<link rel="stylesheet" href="css/header.css" type="text/css" />
+<link rel="stylesheet" href="/assignment5-webapplication/css/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" href="/assignment5-webapplication/css/header.css" type="text/css" />
 <style>
 #textcontentdiv * {
 	vertical-align: top;
 }
 </style>
-<script src="js/jquery-1.11.1.min.js"></script>
-<script src="js/load_header.js"></script>
-<script src="js/geocoder.js"></script>
+<script src="/assignment5-webapplication/js/jquery-1.11.1.min.js"></script>
+<script src="/assignment5-webapplication/js/load_header.js"></script>
+<script src="/assignment5-webapplication/js/geocoder.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII" />
 <title>Update Report</title>
 </head>

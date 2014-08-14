@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/view_file")
+@WebServlet("/members/view_file")
 public class ViewFileServlet extends HttpServlet {
 	private static final long serialVersionUID = -2432280626493956191L;
 

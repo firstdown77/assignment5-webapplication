@@ -4,20 +4,20 @@
 		<a href="#" onclick="window.history.go(-1)">Back</a>
 	</td>
 	<td style="padding:20px">
-		<a href="my_account.jsp?username=">Home</a>
+		<a href="/assignment5-webapplication">Home</a>
 	</td>
 	<td style="padding:10px">
-	<form name="input" action="search_results.jsp" method="post">
+	<form name="input" action="/assignment5-webapplication/members/search_results.jsp" method="post">
 		<input type="text" name="search_query" onfocus="if (this.value=='Search: Reports/Evacuation Events') this.value=''"value="Search: Reports/Evacuation Events"
 		 onblur="if (this.value=='') this.value='Search: Reports/Evacuation Events'" size="40"/>
 		<input type="submit" value="Search" />		
 	</form>
 	</td>
 	<td style="padding:20px">
-		<a href="advanced_search.html">Advanced Search</a>
+		<a href="/assignment5-webapplication/members/advanced_search.html">Advanced Search</a>
 	</td>
 	<td style="padding:20px">
-		<a href="index.jsp">Log Out</a>
+		<a onclick="sendLogout()" href="/assignment5-webapplication?logout=true">Log Out</a>
 	</td>
 </tr>
 </table>

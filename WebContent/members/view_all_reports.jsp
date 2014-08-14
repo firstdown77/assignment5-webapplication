@@ -7,12 +7,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
-<link rel="stylesheet" href="css/header.css" type="text/css" />
-<link rel="stylesheet" href="css/googlemapcode.css" type="text/css" />
-<script src="js/jquery-1.11.1.min.js"></script>
-<script src="js/load_header.js"></script>
-<script src="js/continentCenterCoords.js"></script>
+<link rel="stylesheet" href="/assignment5-webapplication/css/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" href="/assignment5-webapplication/css/header.css" type="text/css" />
+<link rel="stylesheet" href="/assignment5-webapplication/css/googlemapcode.css" type="text/css" />
+<script src="/assignment5-webapplication/js/jquery-1.11.1.min.js"></script>
+<script src="/assignment5-webapplication/js/load_header.js"></script>
+<script src="/assignment5-webapplication/js/continentCenterCoords.js"></script>
 <script type="text/javascript"
 	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5VLYkZvLXln72Q2FaNEj6O3H2F0yZsVY">
 </script>

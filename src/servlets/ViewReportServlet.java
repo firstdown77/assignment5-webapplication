@@ -3,6 +3,7 @@ package servlets;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.security.Principal;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -14,7 +15,7 @@ import javax.servlet.http.Part;
 
 import dbObjects.Report;
 
-@WebServlet("/view_report")
+@WebServlet("/members/view_report")
 @MultipartConfig
 public class ViewReportServlet extends HttpServlet {
 
@@ -53,10 +54,10 @@ public class ViewReportServlet extends HttpServlet {
 	      ("<!DOCTYPE html>\n" +
 	       "<html>\n" +
 	       "<head>\n" +
-	       "<link rel='stylesheet' href='css/bootstrap.min.css' type='text/css'/>\n" +
-	       "<link rel='stylesheet' href='css/header.css' type='text/css'/>\n" + 
-	       "<script src='js/jquery-1.11.1.min.js'></script>\n" +
-	       "<script src='js/load_header.js'></script>\n" +
+	       "<link rel='stylesheet' href='/assignment5-webapplication/css/bootstrap.min.css' type='text/css'/>\n" +
+	       "<link rel='stylesheet' href='/assignment5-webapplication/css/header.css' type='text/css'/>\n" + 
+	       "<script src='/assignment5-webapplication/js/jquery-1.11.1.min.js'></script>\n" +
+	       "<script src='/assignment5-webapplication/js/load_header.js'></script>\n" +
 	       "<meta http-equiv='Content-Type' content='text/html; charset=US-ASCII' />\n" +
 	       "<title>View Report</title></head>\n" +
 	       "<body bgcolor=\"#fdf5e6\">\n" +
@@ -64,17 +65,18 @@ public class ViewReportServlet extends HttpServlet {
 	       "<h1 class='text-center'>View Report</h1>\n" +
 	       "<p class='text-center' id='status_message' style='display:none'>" + updateMessage + "</p>\n" + 
 	       "<script>$('#status_message').fadeIn(300).delay(1500).fadeTo(300, 0);</script>\n" +
-	       "<p class='text-center'>" + (r.getTitle() == null ? "No Title Provided" : r.getTitle()) + "</p>\n\n" +
-	       "<p class='text-center'>" + (r.getTextcontent() == null ? "No Text Content Provided" : r.getTextcontent()) + "</p>\n\n" +
-	       "<p class='text-center'>" + (r.getAddress() == null ? "No Address Provided" : r.getAddress()) + "</p>\n" +
-	       "<p class='text-center'>" + (r.getLatitude() == null ? "No Latitude Provided" : r.getLatitude()) + "</p>\n" +
-	       "<p class='text-center'>" + (r.getLongitude() == null ? "No Longitude Provided" : r.getLongitude()) + "</p>\n" +
-	       "<p class='text-center'>" + (r.getRadius() == null ? "No Radius Provided" : r.getRadius()) + "</p>\n" +
-	       "<p class='text-center'>" + (r.getUser() == null ? "Username Unavailable" : r.getUser()) + "</p>\n" +
-	       "<p class='text-center'>" + (r.getFilename() == null ? "No File Content Provided" : "<a href='view_file?filename=" + 
+	       "<div style='  width: 715px; margin:0 auto;';>" + 
+	       "<p>Title: " + (r.getTitle() == null ? "No Title Provided" : r.getTitle()) + "</p>\n\n" +
+	       "<p>Text Content: " + (r.getTextcontent() == null ? "No Text Content Provided" : r.getTextcontent()) + "</p>\n\n" +
+	       "<p>Address: " + (r.getAddress() == null ? "No Address Provided" : r.getAddress()) + "</p>\n" +
+	       "<p>Latitude: " + (r.getLatitude() == null ? "No Latitude Provided" : r.getLatitude()) + "</p>\n" +
+	       "<p>Longitude: " + (r.getLongitude() == null ? "No Longitude Provided" : r.getLongitude()) + "</p>\n" +
+	       "<p>Radius: " + (r.getRadius() == null ? "No Radius Provided" : r.getRadius()) + "</p>\n" +
+	       "<p>Username: " + (r.getUser() == null ? "Username Unavailable" : r.getUser()) + "</p>\n" +
+	       "<p>File: " + (r.getFilename() == null ? "No File Content Provided" : "<a href='view_file?filename=" + 
 	       r.getFilename() + "' target='_blank'>" + r.getFilename() + "</a>") +
-	       "</p>\n<p class='text-center'><a href='update_report.jsp?update_report_id=" + r.get_id() + "'>Update Report</a> | <a href='my_account.jsp?username=&delete_report_id=" + r.get_id() + "'>Delete Report</a>\n"
-	       		+ "</p>\n</body></html>");
+	       "</p>\n<p class='text-center'><a href='/assignment5-webapplication/members/update_report.jsp?update_report_id=" + r.get_id() + "'>Update Report</a> | <a href='/assignment5-webapplication?username=&delete_report_id=" + r.get_id() + "'>Delete Report</a>\n"
+	       		+ "</p></div>\n</body></html>");
 	}
 	
 	//This method is used upon report creation.
@@ -131,7 +133,8 @@ public class ViewReportServlet extends HttpServlet {
 		else {
 			title = null;
 		}
-		String username = UserVariables.username;
+		Principal p = request.getUserPrincipal();
+		String username = p.getName();
 		Part filePart = request.getPart("content");
 		InputStream fileContent = filePart.getInputStream();
 		String fileName = getFilename(filePart);
