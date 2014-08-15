@@ -25,7 +25,7 @@ public class DeleteAccount extends HttpServlet {
 		DatabaseMethods db = new DatabaseMethods();
 		Principal p = req.getUserPrincipal();
 		String username = p.getName();
-		db.deleteUser(username);
+		db.deleteUserWrapper(username);
 		return;
 	}	
 }

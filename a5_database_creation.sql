@@ -32,10 +32,5 @@ USE disasterevacuationdb;
 --   PRIMARY KEY (username, rolename)
 -- );
 
--- INSERT INTO users (username, password_hash, secretkey, firstname, lastname,
--- joindate) VALUES ("tomcat", "tomcat", null, null, null, null);
--- INSERT INTO user_roles (username, rolename) VALUES ("tomcat", "normal");
--- INSERT INTO user_roles (username, rolename) VALUES ("firstdown77", "normal");
-
 -- CREATE USER 'tomcat'@'localhost' IDENTIFIED BY 'tomcat';
 -- GRANT SELECT ON disasterevacuationdb.* TO tomcat@localhost;

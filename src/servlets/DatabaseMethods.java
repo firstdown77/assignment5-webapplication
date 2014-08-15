@@ -504,6 +504,50 @@ public class DatabaseMethods {
 		return false;
 	}
 	
+	public boolean deleteUserRole(String username) {
+		open();
+		String SQL_QUERY= "DELETE FROM user_roles WHERE username='"+username+"'";
+		Statement stmt;
+		try {
+			stmt = con.createStatement();
+			int result = stmt.executeUpdate(SQL_QUERY);
+			close();
+			return (result > 0);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} 
+		close();
+		return false;
+	}
+	
+	public boolean deleteUserReports(String username) {
+		open();
+		String SQL_QUERY= "DELETE FROM reports WHERE username='"+username+"'";
+		Statement stmt;
+		try {
+			stmt = con.createStatement();
+			int result = stmt.executeUpdate(SQL_QUERY);
+			close();
+			return (result > 0);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} 
+		close();
+		return false;
+	}
+	
+	public boolean deleteUserWrapper(String username) {
+		boolean result1 = deleteUser(username);
+		boolean result2 = deleteUserRole(username);
+		boolean result3 = deleteUserReports(username);
+		if (result1 == true && result2 == true && result3 == true) {
+			return true;
+		}
+		return false;
+	}
+	
 //	public boolean verifyPassword(String username, String password) {
 //		User u = getUserByUsername(username);
 //		try {

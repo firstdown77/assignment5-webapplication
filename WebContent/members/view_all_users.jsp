@@ -27,7 +27,9 @@
 	}
 	request.setAttribute("test", testList); %>
 
-	<display:table name="test" pagesize="10" class="centered" />
+	<center><display:table name="test" pagesize="10" />
+	<display:column test />
+	</center>
 	</div>
 </body>
 </html>
