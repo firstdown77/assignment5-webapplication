@@ -2,6 +2,8 @@
     pageEncoding="US-ASCII"%>
 <%@ taglib uri="http://displaytag.sf.net" prefix="display" %>
 <%@ page import="java.util.*" %>
+<%@ page import="servlets.DatabaseMethods" %>
+<%@ page import="dbObjects.*" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -16,13 +18,16 @@
 	<div id="header"></div>
 	<h2 class="text-center">View All Users</h2>
 	<div class="centered">
-	<% List<String> testList = new LinkedList<String>();
-	for (int i = 0; i < 20; i++) {
-		testList.add(i, "" + i);
+	<% 
+	DatabaseMethods db = new DatabaseMethods();
+	LinkedList<User> allUsers = db.getAllUsers();
+	List<String> testList = new LinkedList<String>();
+	for (int i = 0; i < allUsers.size(); i++) {
+		testList.add(i, allUsers.get(i).getFirstName());
 	}
 	request.setAttribute("test", testList); %>
 
-	<display:table name="test" pagesize="10" />
+	<display:table name="test" pagesize="10" class="centered" />
 	</div>
 </body>
 </html>

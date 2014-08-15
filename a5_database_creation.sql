@@ -17,14 +17,14 @@ USE disasterevacuationdb;
    
 -- ALTER TABLE reports ADD INDEX(username);
 
- CREATE TABLE users (
- user_id integer NOT NULL AUTO_INCREMENT PRIMARY KEY,
- username VARCHAR(50) UNIQUE NOT NULL,
- password_hash VARCHAR(250) NOT NULL,
- firstname VARCHAR(100),
- lastname VARCHAR(100),
- joindate DATE
- );
+-- CREATE TABLE users (
+-- user_id integer NOT NULL AUTO_INCREMENT PRIMARY KEY,
+-- username VARCHAR(50) UNIQUE NOT NULL,
+-- password_hash VARCHAR(250) NOT NULL,
+-- firstname VARCHAR(100),
+-- lastname VARCHAR(100),
+-- joindate DATE
+-- );
    
 -- CREATE TABLE user_roles (
 --   username VARCHAR(50) NOT NULL,

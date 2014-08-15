@@ -46,7 +46,7 @@
 		<li><a href="members/view_all_users.jsp">View All Users</a></li>
 		<li><a href="members/view_all_reports.jsp">View All Reports</a></li>
 		<li>View All Evacuation Events</li>
-		<li>Delete Account</li>
+		<li><a onclick="deleteAccount()" href="/assignment5-webapplication?action=delete_account">Delete Account</a></li>
 		<li><a href="members/create_report.html">Create New Report</a></li>
 		<li>My Registrations for Evacuation Events</li>
 		<%

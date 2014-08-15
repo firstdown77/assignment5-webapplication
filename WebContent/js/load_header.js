@@ -11,3 +11,13 @@ function sendLogout() {
 		}
 	});
 }
+
+function deleteAccount() {
+	$.ajax({
+		url: "/assignment5-webapplication/delete_account",
+		type: "post",
+	    async: false,
+	    success: function(data) {
+		}
+	});
+}

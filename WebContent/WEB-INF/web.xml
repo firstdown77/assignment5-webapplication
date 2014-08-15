@@ -35,10 +35,9 @@
 			<auth-method>FORM</auth-method>
 			<form-login-config>
 				<form-login-page>/WEB-INF/login.jsp</form-login-page>
-				<form-error-page>/WEB-INF/login.jsp?login_failed=true</form-error-page>
+				<form-error-page>/WEB-INF/login.jsp?login_failed=true</form-error-page>				
 			</form-login-config>
 		</login-config>
-		
 
 		<security-role>
 			<description>Required privileges to access securely constraint URLs.</description>

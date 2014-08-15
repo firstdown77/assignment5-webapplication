@@ -11,10 +11,7 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.sql.Types;
 import java.util.HashSet;
-
-import javax.crypto.Cipher;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
+import java.util.LinkedList;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 
@@ -463,6 +460,50 @@ public class DatabaseMethods {
 		return u;
 	}
 
+	public LinkedList<User> getAllUsers() {
+		open();
+		String SQL_QUERY= "SELECT * from users";
+		Statement stmt;
+		User u = null;
+		LinkedList<User> llu = new LinkedList<User>();
+		try {
+			stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(SQL_QUERY);
+			while(rs.next()) {
+				u = new User(rs.getLong("user_id"), rs.getString("username"),
+						rs.getString("password_hash"), rs.getString("firstname"),
+						rs.getString("lastname"), rs.getDate("joindate"));
+//				r.setUser(StringEscapeUtils.unescapeJava(r.getUser()));
+//				r.setAddress(StringEscapeUtils.unescapeJava(r.getAddress()));
+//				r.setTitle(StringEscapeUtils.unescapeJava(r.getTitle()));
+//				r.setTextcontent(StringEscapeUtils.unescapeJava(r.getTextcontent()));
+//				r.setFilename(StringEscapeUtils.unescapeJava(r.getFilename()));
+				llu.add(u);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} 
+		close();
+		return llu;
+	}
+	
+	public boolean deleteUser(String username) {
+		open();
+		String SQL_QUERY= "DELETE FROM users WHERE username='"+username+"'";
+		Statement stmt;
+		try {
+			stmt = con.createStatement();
+			int result = stmt.executeUpdate(SQL_QUERY);
+			close();
+			return (result > 0);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} 
+		close();
+		return false;
+	}
+	
 //	public boolean verifyPassword(String username, String password) {
 //		User u = getUserByUsername(username);
 //		try {
