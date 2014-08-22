@@ -1,5 +1,7 @@
 $(function(){
-	  $("#header").load("/assignment5-webapplication/members/header.html"); 
+	  $("#header").load("/assignment5-webapplication/members/header.html");
+	  $("#sidebar").load("/assignment5-webapplication/members/sidebar.jsp");
+
 });
 
 function sendLogout() {

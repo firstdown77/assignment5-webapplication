@@ -20,6 +20,7 @@
 </head>
 <body>
 	<div id="header"></div>
+	<div id="sidebar"></div>
 	<h2 class="text-center">Update Report</h2>
 	<%
 		Report r;

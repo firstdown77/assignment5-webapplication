@@ -18,6 +18,7 @@
 </head>
 <body>
 	<div id="header"></div>
+	<div id="sidebar"></div>
 	<h2 class="text-center">View All Users</h2>
 	<div class="centered">
 		<%

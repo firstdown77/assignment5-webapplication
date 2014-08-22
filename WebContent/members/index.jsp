@@ -8,6 +8,7 @@
 <head>
 <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
 <link rel="stylesheet" href="css/header.css" type="text/css"/>
+<link rel="stylesheet" href="css/index.css" type="text/css"/>
 <title>My Account</title>
 <script src="js/jquery-1.11.1.min.js"></script>
 <script src="js/load_header.js"></script>
@@ -15,7 +16,8 @@
 <title>Login</title>
 </head>
 <body>
-	<div id="header" data-theme="g" data-role="header"></div>
+	<div id="header"></div>
+	<div id="sidebar"></div>
 	<% 
 	Principal p = request.getUserPrincipal();
 	String username = p.getName();
@@ -47,35 +49,20 @@
 	%>
 
 	<h3 class="text-center"><%="Welcome " + u.getFirstName() + " " + u.getLastName() + ", member since " + sdf.format(u.getJoinDate()) + "." %></h3>
-	<ul>
-		<li><a href="members/view_all_users.jsp">View All Users</a></li>
-		<li><a href="members/view_all_reports.jsp">View All Reports</a></li>
-		<li>View All Evacuation Events</li>
-		<li><a onclick="deleteAccount()" href="/assignment5-webapplication?action=delete_account">Delete Account</a></li>
-		<li><a href="members/create_report.html">Create New Report</a></li>
-		<li>My Registrations for Evacuation Events</li>
-		<%
-			if (username.equals(UserVariables.adminUsername)) {
-		%>
-		<li>Create Evacuation Event</li>
-		<li><a href="members/upload_file.html">Upload Initial Data</a></li>
-		<%
-			}
-		%>
-	</ul>
 	<p>
-	<h3>My Reports</h3>
+	
+	<h3 class="text-center">My Recent Reports</h3>
 	<%
 		HashSet<Report> hsr = db.getReportsByUser(username);
 	%>
 	<%
 		if (hsr.isEmpty()) {
 	%>
-	<p>You have not submitted any reports yet.</p>
+	<p class="text-center">You have not submitted any reports yet.</p>
 	<%
 		} else {
 	%>
-	<ul>
+	<ul class="text-center my_reports">
 		<%
 			for (Report r : hsr) {
 		%>
