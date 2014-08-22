@@ -1,5 +1,5 @@
 package servlets;
 
 public class UserVariables {
-	public static String adminUsername = "firstdown77";
+	public static String adminUsername = "admin";
 }

@@ -73,7 +73,7 @@ public class ViewReportServlet extends HttpServlet {
 	       "<p>Longitude: " + (r.getLongitude() == null ? "No Longitude Provided" : r.getLongitude()) + "</p>\n" +
 	       "<p>Radius: " + (r.getRadius() == null ? "No Radius Provided" : r.getRadius()) + "</p>\n" +
 	       "<p>Username: " + (r.getUser() == null ? "Username Unavailable" : r.getUser()) + "</p>\n" +
-	       "<p>File: " + (r.getFilename() == null ? "No File Content Provided" : "<a href='view_file?filename=" + 
+	       "<p>File: " + (r.getFilename() == null ? "None" : "<a href='view_file?filename=" + 
 	       r.getFilename() + "' target='_blank'>" + r.getFilename() + "</a>") +
 	       "</p>\n<p class='text-center'><a href='/assignment5-webapplication/members/update_report.jsp?update_report_id=" + r.get_id() + "'>Update Report</a> | <a href='/assignment5-webapplication?username=&delete_report_id=" + r.get_id() + "'>Delete Report</a>\n"
 	       		+ "</p></div>\n</body></html>");

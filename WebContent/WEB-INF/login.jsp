@@ -1,7 +1,6 @@
 <%@page import="servlets.DatabaseMethods"%>
 <%@ page language="java" contentType="text/html; charset=US-ASCII"
     pageEncoding="US-ASCII"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <script src="/assignment5-webapplication/js/send_create_user_request.js"></script>

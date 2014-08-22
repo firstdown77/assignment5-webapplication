@@ -3,7 +3,6 @@
 <%@ page import="java.util.*"%>
 <%@ page import="servlets.*"%>
 <%@ page import="dbObjects.*"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <link rel="stylesheet" href="/assignment5-webapplication/css/bootstrap.min.css" type="text/css" />
@@ -46,14 +45,13 @@
 			type="text" size="50" name="address" id="address"
 			onfocus="if (this.value==='Address') this.value=''"
 			value="<%= (r.getAddress() == null ? "Address" : r.getAddress()) %>"
-			onblur="if (this.value=='') this.value='Address'" /> &nbsp;&nbsp; Or
-		&nbsp;&nbsp;
+			onblur="if (this.value=='') this.value='Address'" /><br /><br />
 		<div style="display: inline; width: 10px;">
-			<input type="text" name="latitude" id="latitude"
+			Latitude: &nbsp;<input type="text" name="latitude" id="latitude"
 				onfocus="if (this.value==='Latitude') this.value=''"
 				value="<%= (r.getLatitude() == null ? "Latitude" : r.getLatitude()) %>"
-				onblur="if (this.value=='') this.value='Latitude'" /> <input
-				type="text" style="position: relative;" name="longitude"
+				onblur="if (this.value=='') this.value='Latitude'" /><br /><br />
+				Longitude: &nbsp; <input type="text" style="position: relative;" name="longitude"
 				id="longitude" onfocus="if (this.value==='Longitude') this.value=''"
 				value="<%= (r.getLongitude() == null ? "Longitude" : r.getLongitude()) %>"
 				onblur="if (this.value=='') this.value='Longitude'" />
@@ -68,8 +66,13 @@
 			onblur="if (this.value=='') this.value='Write report content...'"><%= (r.getTextcontent() == null ? "Write report content..." : r.getTextcontent()) %></textarea>
 		</div><br /> <br />
 		<center>
-			Current File: <a
-				href='view_file?filename=<%=r.getFilename() %>' target='_blank'><%=r.getFilename()%></a><br /><br />
+			Current File: <%
+			if (r.getFilename() == null) {
+				%>None<%
+			} else { %>
+				<a href='view_file?filename=<%=r.getFilename() %>' target='_blank'><%=r.getFilename()%></a>
+			<% } %>
+			<br /><br />
 			Upload New File: &nbsp;&nbsp;<input type="file"
 				style="display: inline;" name="content"
 				onfocus="if (this.value==='Content') this.value=''" value="Content"

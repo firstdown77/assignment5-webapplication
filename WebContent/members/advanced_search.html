@@ -3,11 +3,22 @@
 <head>
 <link rel="stylesheet" href="/assignment5-webapplication/css/bootstrap.min.css" type="text/css" />
 <link rel="stylesheet" href="/assignment5-webapplication/css/header.css" type="text/css" />
-<link rel="stylesheet" href="/assignment5-webapplication/css/googlemapcode.css" type="text/css" />
 <script src="/assignment5-webapplication/js/jquery-1.11.1.min.js"></script>
 <script src="/assignment5-webapplication/js/load_header.js"></script>
-<script type="text/javascript"
-	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5VLYkZvLXln72Q2FaNEj6O3H2F0yZsVY">
+<script>
+function validateCheckbox() {
+	var c = document.getElementsByTagName('input');
+	for (var i = 0; i < c.length; i++) {
+		if (c[i].type == 'checkbox') {
+			if (c[i].checked) {
+				return true;
+			}
+		}
+	}
+	$("#status_message").text("Whoops, you need to select a checkbox.");
+	$('#status_message').fadeTo(300, 100).delay(1500).fadeTo(300, 0);
+	return false;
+}
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII" />
 <title>Advanced Search</title>
@@ -15,11 +26,11 @@
 <body>
 	<div id="header"></div>
 	<h2 class="text-center">Advanced Search</h2>
-	<br />
+	<p id="status_message" class="text-center">&nbsp;</p>
 	<table class="centered">
 		<tr>
 			<td>
-				<form name="input" action="advanced_search_results.jsp" method="post">
+				<form name="input" action="advanced_search_results.jsp" onsubmit="return validateCheckbox()" method="post">
 					<fieldset>
 						<input type="text" name="search_query"
 							onfocus="if (this.value==='Enter advanced search query...') this.value=''"

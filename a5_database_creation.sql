@@ -10,7 +10,7 @@ USE disasterevacuationdb;
 -- latitude DOUBLE,
 -- radius DOUBLE,
 -- title VARCHAR(100),
--- textcontent TINYTEXT,
+-- textcontent TEXT,
 -- content MEDIUMBLOB,
 -- filename VARCHAR(100)
 -- );
