@@ -56,27 +56,67 @@ public class ViewReportServlet extends HttpServlet {
 	       "<head>\n" +
 	       "<link rel='stylesheet' href='/assignment5-webapplication/css/bootstrap.min.css' type='text/css'/>\n" +
 	       "<link rel='stylesheet' href='/assignment5-webapplication/css/header.css' type='text/css'/>\n" + 
+	       "<link rel='stylesheet' href='/assignment5-webapplication/css/view_report.css' type='text/css'/>\n" + 
+	       "<link rel='stylesheet' href='/assignment5-webapplication/css/googlemapcode.css' type='text/css' />" + 
 	       "<script src='/assignment5-webapplication/js/jquery-1.11.1.min.js'></script>\n" +
-	       "<script src='/assignment5-webapplication/js/load_header.js'></script>\n" +
-	       "<meta http-equiv='Content-Type' content='text/html; charset=US-ASCII' />\n" +
+	       "<script src='/assignment5-webapplication/js/load_header.js'></script>\n" + 
+	       "<script type='text/javascript' src='https://maps.googleapis.com/maps/api/js?" + 
+	       "key=AIzaSyA5VLYkZvLXln72Q2FaNEj6O3H2F0yZsVY'></script>\n" +
+	       "<meta http-equiv='Content-Type' content='text/html; charset=US-ASCII' />\n" + 
+	       "<meta name='viewport' content='initial-scale=1.0, user-scalable=no' />" +
 	       "<title>View Report</title></head>\n" +
 	       "<body bgcolor=\"#fdf5e6\">\n" +
-	       "<div id='header'></div>" +
-	       "<h1 class='text-center'>View Report</h1>\n" +
+	       "<div id='header'></div>\n" +
+	       "<div id='sidebar'></div>\n" +
+	       "<h1 class='text-center'>" + (r.getTitle() == null ? "Untitled" : r.getTitle()) +"</h1>\n" +
 	       "<p class='text-center' id='status_message' style='display:none'>" + updateMessage + "</p>\n" + 
 	       "<script>$('#status_message').fadeIn(300).delay(1500).fadeTo(300, 0);</script>\n" +
-	       "<div style='  width: 715px; margin:0 auto;';>" + 
-	       "<p>Title: " + (r.getTitle() == null ? "No Title Provided" : r.getTitle()) + "</p>\n\n" +
-	       "<p>Text Content: " + (r.getTextcontent() == null ? "No Text Content Provided" : r.getTextcontent()) + "</p>\n\n" +
-	       "<p>Address: " + (r.getAddress() == null ? "No Address Provided" : r.getAddress()) + "</p>\n" +
-	       "<p>Latitude: " + (r.getLatitude() == null ? "No Latitude Provided" : r.getLatitude()) + "</p>\n" +
-	       "<p>Longitude: " + (r.getLongitude() == null ? "No Longitude Provided" : r.getLongitude()) + "</p>\n" +
-	       "<p>Radius: " + (r.getRadius() == null ? "No Radius Provided" : r.getRadius()) + "</p>\n" +
-	       "<p>Username: " + (r.getUser() == null ? "Username Unavailable" : r.getUser()) + "</p>\n" +
-	       "<p>File: " + (r.getFilename() == null ? "None" : "<a href='view_file?filename=" + 
-	       r.getFilename() + "' target='_blank'>" + r.getFilename() + "</a>") +
-	       "</p>\n<p class='text-center'><a href='/assignment5-webapplication/members/update_report.jsp?update_report_id=" + r.get_id() + "'>Update Report</a> | <a href='/assignment5-webapplication?username=&delete_report_id=" + r.get_id() + "'>Delete Report</a>\n"
-	       		+ "</p></div>\n</body></html>");
+	       "<div style='width: 715px; margin:0 auto;';>" + 
+	       "<p class='text-center report_details'>" + (r.getTextcontent() == null ? "" : r.getTextcontent()) + "</p>\n\n" +
+	       "<p class='text-center report_details'>" + (r.getFilename() == null ? "" : "<a href='view_file?id=" + r.get_id() + 
+	    		   "' target='_blank'>" + r.getFilename() + "</a></p>") +
+	       "<p class='text-center report_details'>" + (r.getAddress() == null ? "No Address" : r.getAddress()) + "</p>\n"
+	       		+ "</div>\n"
+	       		+ "<script type='text/javascript'>\n"
+	       		+ "var map;\n"
+	       		+ "function initialize() {\n"
+	       		+ "var mapOptions = {\n"
+	       		+ "zoom: 6,\n"
+	       		+ "center: new google.maps.LatLng(" + r.getLatitude() + ", " + r.getLongitude()+ "),\n"
+	       		+ "mapTypeId: google.maps.MapTypeId.TERRAIN\n"
+	       		+ "};\n"
+	       		+ "map = new google.maps.Map(document.getElementById('map-canvas'),mapOptions);\n"
+	       		+ "var CONVERTTOKM = 1000;\n"
+	       		+ "var currCenter = new google.maps.LatLng(" + r.getLatitude() + ", " + r.getLongitude() + ");\n"
+	       		+ "var currRadius = " + r.getRadius() + " * CONVERTTOKM;\n"
+	       		+ "var currTitle = '" + r.getTitle() + "';\n"
+	       		+ "var populationOptions = {\n"
+	       		+ "strokeColor: '#FF0000',\n"
+	       		+ "strokeOpacity: 0.8,\n"
+	       		+ "strokeWeight: 2,\n"
+	       		+ "fillColor: '#FF0000',\n"
+	       		+ "fillOpacity: 0.35,\n"
+	       		+ "map: map,\n"
+	       		+ "center: currCenter,\n"
+	       		+ "radius: currRadius\n"
+	       		+ "};\n"
+	       		+ "cityCircle = new google.maps.Circle(populationOptions);\n"
+	       		+ "var marker = new google.maps.Marker({\n"
+	       		+ "position: currCenter,\n"
+	       		+ "map: map,\n"
+	       		+ "title: currTitle\n"
+	       		+ "});\n"
+	       		+ "google.maps.event.addListener(marker, 'click', function() {\n"
+	       		+ "window.location.href = 'view_report?report_id=" + r.get_id() + "';\n"
+	       		+ "});\n"
+	       		+ "}\n"
+	       		+ "google.maps.event.addDomListener(window, 'load', initialize);\n"
+	       		+ "</script>\n"
+	       		+ "<div id='map-canvas'></div>\n"
+	 	        + "<p class='text-center report_details'>Created By: " + (r.getUser() == null ? "Username Unavailable" : r.getUser()) + "</p>\n"
+		        + "</p>\n<p class='text-center'><a href='/assignment5-webapplication/members/update_report.jsp?update_report_id=" + r.get_id() + "'>Update Report</a> | <a href='/assignment5-webapplication?username=&delete_report_id=" + r.get_id() + "'>Delete Report</a>\n"
+	       		+ "</body></html>");
+	            // Add the circle for this city to the map.
 	}
 	
 	//This method is used upon report creation.

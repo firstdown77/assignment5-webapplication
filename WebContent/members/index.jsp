@@ -3,6 +3,7 @@
 <%@ page import="dbObjects.*"%>
 <%@ page import="java.security.Principal" %>
 <%@ page import="java.text.SimpleDateFormat" %>
+<%@ taglib uri="http://displaytag.sf.net" prefix="display"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,7 +26,6 @@
 	User u = db.getUserByUsername(username);
 	SimpleDateFormat sdf = new SimpleDateFormat("M/d/yyyy");
 	%>
-	<h2 class="text-center"><%=username%></h2>
 	<p id="status_message" class="text-center" style='display:none'></p>
 	<%
 		String upload_file = request.getParameter("upload_file");
@@ -47,30 +47,34 @@
 			$('#status_message').fadeIn(300).delay(1500).fadeTo(300, 0);</script><%
 		}
 	%>
-
-	<h3 class="text-center"><%="Welcome " + u.getFirstName() + " " + u.getLastName() + ", member since " + sdf.format(u.getJoinDate()) + "." %></h3>
+	<br /><br />
+	<h3 class="text-center"><%= u.getFirstName() + " " + u.getLastName() + ", member since " + sdf.format(u.getJoinDate()) + "." %></h3>
 	<p>
-	
-	<h3 class="text-center">My Recent Reports</h3>
+	<br />
+	<div style='border: 1px solid black; width: 715px; margin:0 auto;'>
+	<h4 class="text-center">My Reports</h4>
 	<%
-		HashSet<Report> hsr = db.getReportsByUser(username);
+		List<Report> hsr = db.getReportsByUser(username);
+		request.setAttribute("test", hsr);
+
 	%>
-	<%
-		if (hsr.isEmpty()) {
-	%>
-	<p class="text-center">You have not submitted any reports yet.</p>
-	<%
-		} else {
-	%>
-	<ul class="text-center my_reports">
-		<%
-			for (Report r : hsr) {
-		%>
-		<li><a href="members/view_report?report_id=<%=r.get_id()%>"><%=(r.getTitle() == null ? "No Title Provided" : r.getTitle())%></a></li>
-		<%
-			}
-		%>
-		<% } %>
-	</ul>
+<center>
+	<font size="4"> <display:table name="test" pagesize="5">
+			<display:setProperty name="paging.banner.item_name" value="report" />
+			<display:setProperty name="paging.banner.items_name" value="reports" />
+			<display:setProperty name="paging.banner.one_item_found" value="" />
+			<display:setProperty name="paging.banner.all_items_found" value="" />
+			<display:setProperty name="paging.banner.some_items_found" value="<span class='pagebanner'>{0} total {1}, displaying {2} to {3}. </span>" />
+			<display:setProperty name="basic.msg.empty_list" value="None" />
+			<display:setProperty name="paging.banner.onepage" value="" />			
+		<display:column property="title" title="Title"
+				style="width:200px;" sortable="true" href="/assignment5-webapplication/members/view_report" paramId="report_id" paramProperty="_id" />&nbsp;
+		<display:column property="address" title="Address"
+				style="width:400px;" sortable="true" />&nbsp;
+
+	</display:table>
+	</font>
+</center>
+	</div>
 </body>
 </html>

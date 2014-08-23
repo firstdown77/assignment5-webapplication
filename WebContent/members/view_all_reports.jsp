@@ -11,9 +11,8 @@
 <script src="/assignment5-webapplication/js/jquery-1.11.1.min.js"></script>
 <script src="/assignment5-webapplication/js/load_header.js"></script>
 <script src="/assignment5-webapplication/js/continentCenterCoords.js"></script>
-<script type="text/javascript"
-	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5VLYkZvLXln72Q2FaNEj6O3H2F0yZsVY">
-</script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?
+key=AIzaSyA5VLYkZvLXln72Q2FaNEj6O3H2F0yZsVY"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII" />
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 <title>View All Reports</title>

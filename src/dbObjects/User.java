@@ -6,7 +6,6 @@ public class User {
 	private Long user_id;
 	private String username;
 	private String password_hash;
-//	private byte[] secretKey;
 	private String firstName;
 	private String lastName;
 	private Date joinDate;
@@ -102,12 +101,4 @@ public class User {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-
-//	public byte[] getSecretKey() {
-//		return secretKey;
-//	}
-//
-//	public void setSecretKey(byte[] secretKey) {
-//		this.secretKey = secretKey;
-//	}
 }

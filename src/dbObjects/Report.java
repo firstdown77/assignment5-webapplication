@@ -14,11 +14,11 @@ public class Report {
 	private InputStream content;
 	private String filename;
 	
-	public Report(Long _id, String user, String address, Double latitude, Double longitude,
+	public Report(Long _id, String username, String address, Double latitude, Double longitude,
 			String title, Double radius, String textcontent, InputStream content, String filename) {
 		super();
 		this._id = _id;
-		this.username = user;
+		this.username = username;
 		this.address = address;
 		this.latitude = latitude;
 		this.longitude = longitude;

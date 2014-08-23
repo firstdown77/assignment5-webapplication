@@ -16,6 +16,7 @@ import java.sql.Statement;
 import java.sql.Types;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.json.JSONArray;
@@ -131,41 +132,12 @@ public class DatabaseMethods {
 		return null;
 	}
 
-	public Report getRecentReport() {
-		open();
-		String SQL_QUERY= "SELECT * from reports ORDER BY report_id DESC LIMIT 1";
-		Statement stmt;
-		Report r = null;
-		try {
-			stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery(SQL_QUERY);
-			if(rs.next()) {
-				r = new Report(Long.valueOf(Long.valueOf(rs.getInt("report_id"))),
-						rs.getString("username"), rs.getString("address"), (Double)rs.getObject("latitude"),
-						(Double)rs.getObject("longitude"), rs.getString("title"),
-						(Double)rs.getObject("radius"), rs.getString("textcontent"),
-						rs.getBlob("content").getBinaryStream(),
-						rs.getString("filename"));
-				r.setUser(StringEscapeUtils.unescapeJava(r.getUser()));
-				r.setAddress(StringEscapeUtils.unescapeJava(r.getAddress()));
-				r.setTitle(StringEscapeUtils.unescapeJava(r.getTitle()));
-				r.setTextcontent(StringEscapeUtils.unescapeJava(r.getTextcontent()));
-				r.setFilename(StringEscapeUtils.unescapeJava(r.getFilename()));
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} 
-		close();
-		return r;
-	}
-
-	public HashSet<Report> getReportsByUser(String username) {
+	public List<Report> getReportsByUser(String username) {
 		open();
 		String SQL_QUERY= "SELECT * from reports WHERE username='" + username + "'";
 		Statement stmt;
 		Report r = null;
-		HashSet<Report> hsr = new HashSet<Report>();
+		LinkedList<Report> hsr = new LinkedList<Report>();
 		try {
 			stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(SQL_QUERY);
@@ -181,6 +153,7 @@ public class DatabaseMethods {
 				r.setTitle(StringEscapeUtils.unescapeJava(r.getTitle()));
 				r.setTextcontent(StringEscapeUtils.unescapeJava(r.getTextcontent()));
 				r.setFilename(StringEscapeUtils.unescapeJava(r.getFilename()));
+				if (r.getTitle() == null) r.setTitle("Untitled");
 				hsr.add(r);
 			}
 		} catch (SQLException e) {
@@ -663,7 +636,8 @@ public class DatabaseMethods {
 				String filename = reportObject.getString("picture");
 				URL url = new URL(filename);
 				URLConnection urlCon = url.openConnection();
-				InputStream content = urlCon.getInputStream();
+				urlCon.connect();
+				InputStream content = urlCon.getInputStream();				
 				String textcontent = reportObject.getString("content");
 				username = StringEscapeUtils.escapeHtml4(username);
 				//					Note: No address is given.

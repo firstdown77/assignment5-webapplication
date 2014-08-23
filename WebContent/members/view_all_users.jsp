@@ -31,13 +31,18 @@
 			<font size="4"> <display:table name="test" pagesize="10">
 					<display:setProperty name="paging.banner.item_name" value="user" />
 					<display:setProperty name="paging.banner.items_name" value="users" />
+					<display:setProperty name="paging.banner.one_item_found" value="" />
+					<display:setProperty name="paging.banner.all_items_found" value="" />
+					<display:setProperty name="basic.msg.empty_list" value="None" />
+					<display:setProperty name="paging.banner.some_items_found" value="<span class='pagebanner'>{0} total {1}, displaying {2} to {3}. </span>" />
+					<display:setProperty name="paging.banner.onepage" value="" />			
+					<display:column property="username" title="Username"
+						style="width:155px;" sortable="true" />&nbsp;
 					<display:column property="firstName" title="First Name"
-						style="width:125px;" sortable="true" />&nbsp;
-				<display:column property="lastName" title="Last Name"
-						style="width:125px;" sortable="true" />&nbsp;
-				<display:column property="username" title="Username"
-						style="width:125px;" sortable="true" />&nbsp;
-				<display:column property="joinDate" title="Member Since"
+						style="width:155px;" sortable="true" />&nbsp;
+					<display:column property="lastName" title="Last Name"
+						style="width:155px;" sortable="true" />&nbsp;
+					<display:column property="joinDate" title="Member Since"
 						format="{0,date,M/d/yyyy}" sortable="true" />&nbsp;
 			</display:table>
 			</font>
