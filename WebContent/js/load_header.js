@@ -15,11 +15,13 @@ function sendLogout() {
 }
 
 function deleteAccount() {
-	$.ajax({
-		url: "/assignment5-webapplication/delete_account",
-		type: "post",
-	    async: false,
-	    success: function(data) {
-		}
-	});
+	if (confirm('Are you sure you want to delete your account?')) {
+		$.ajax({
+			url: "/assignment5-webapplication/delete_account",
+			type: "post",
+			async: false,
+			success: function(data) {
+			}
+		});
+	}
 }

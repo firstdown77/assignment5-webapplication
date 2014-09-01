@@ -48,33 +48,37 @@
 		}
 	%>
 	<br /><br />
-	<h3 class="text-center"><%= u.getFirstName() + " " + u.getLastName() + ", member since " + sdf.format(u.getJoinDate()) + "." %></h3>
+	<h3 class="text-center"><%= u.getFirstName() + " " + u.getLastName() + ", member since " + sdf.format(u.getJoinDate()) %></h3>
 	<p>
 	<br />
-	<div style='border: 1px solid black; width: 715px; margin:0 auto;'>
+	<div style='width: 700px; margin:0 auto;'>
 	<h4 class="text-center">My Reports</h4>
 	<%
 		List<Report> hsr = db.getReportsByUser(username);
 		request.setAttribute("test", hsr);
 
 	%>
-<center>
-	<font size="4"> <display:table name="test" pagesize="5">
-			<display:setProperty name="paging.banner.item_name" value="report" />
-			<display:setProperty name="paging.banner.items_name" value="reports" />
-			<display:setProperty name="paging.banner.one_item_found" value="" />
-			<display:setProperty name="paging.banner.all_items_found" value="" />
-			<display:setProperty name="paging.banner.some_items_found" value="<span class='pagebanner'>{0} total {1}, displaying {2} to {3}. </span>" />
-			<display:setProperty name="basic.msg.empty_list" value="None" />
-			<display:setProperty name="paging.banner.onepage" value="" />			
-		<display:column property="title" title="Title"
-				style="width:200px;" sortable="true" href="/assignment5-webapplication/members/view_report" paramId="report_id" paramProperty="_id" />&nbsp;
-		<display:column property="address" title="Address"
-				style="width:400px;" sortable="true" />&nbsp;
+		<center>
+			<font size="4"> <display:table name="test" pagesize="5">
+					<display:setProperty name="paging.banner.item_name" value="report" />
+					<display:setProperty name="paging.banner.items_name"
+						value="reports" />
+					<display:setProperty name="paging.banner.one_item_found" value="" />
+					<display:setProperty name="paging.banner.all_items_found" value="" />
+					<display:setProperty name="basic.msg.empty_list" value="None" />
+					<display:setProperty name="paging.banner.some_items_found"
+					value="<span class='pagebanner'>{0} total {1}, displaying {2} to {3}. </span>" />
+					<display:setProperty name="paging.banner.onepage" value="" />			
+					<display:column property="title" title="<center><u>Title</u></center>" style="width:350px; text-align:center;"
+						sortable="true"
+						href="/assignment5-webapplication/members/view_report"
+						paramId="report_id" paramProperty="_id" />&nbsp;
+		<display:column property="address" title="<center><u>Address</u></center>"
+						style="width:350px; text-align:center;" sortable="true" />&nbsp;
 
 	</display:table>
-	</font>
-</center>
+			</font>
+		</center>
 	</div>
 </body>
 </html>

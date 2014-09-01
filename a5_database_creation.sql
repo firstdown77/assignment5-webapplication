@@ -5,7 +5,7 @@ USE disasterevacuationdb;
 -- CREATE TABLE reports (
 -- report_id integer NOT NULL AUTO_INCREMENT PRIMARY KEY,
 -- address VARCHAR(150),
--- username VARCHAR(100),
+-- username VARCHAR(20),
 -- longitude DOUBLE,
 -- latitude DOUBLE,
 -- radius DOUBLE,
@@ -19,15 +19,15 @@ USE disasterevacuationdb;
 
 -- CREATE TABLE users (
 -- user_id integer NOT NULL AUTO_INCREMENT PRIMARY KEY,
--- username VARCHAR(50) UNIQUE NOT NULL,
+-- username VARCHAR(20) UNIQUE NOT NULL,
 -- password_hash VARCHAR(250) NOT NULL,
--- firstname VARCHAR(100),
--- lastname VARCHAR(100),
+-- firstname VARCHAR(20),
+-- lastname VARCHAR(20),
 -- joindate DATE
 -- );
    
 -- CREATE TABLE user_roles (
---   username VARCHAR(50) NOT NULL,
+--   username VARCHAR(20) NOT NULL,
 --   rolename VARCHAR(15) NOT NULL,
 --   PRIMARY KEY (username, rolename)
 -- );

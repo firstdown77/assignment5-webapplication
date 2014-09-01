@@ -5,11 +5,11 @@
 	pageEncoding="US-ASCII"%>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII" />
-<link rel="stylesheet" href="/assignment5-webapplication/css/bootstrap.min.css" type="text/css" />
-<link rel="stylesheet" href="/assignment5-webapplication/css/search_results.css" type="text/css" />
-<link rel="stylesheet" href="/assignment5-webapplication/css/header.css" type="text/css" />
-<link rel="stylesheet" href="/assignment5-webapplication/css/googlemapcode.css" type="text/css" />
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII" ></meta>
+<link rel="stylesheet" href="/assignment5-webapplication/css/bootstrap.min.css" type="text/css"></link>
+<link rel="stylesheet" href="/assignment5-webapplication/css/search_results.css" type="text/css"></link>
+<link rel="stylesheet" href="/assignment5-webapplication/css/header.css" type="text/css"></link>
+<link rel="stylesheet" href="/assignment5-webapplication/css/googlemapcode.css" type="text/css"></link>
 <script src="/assignment5-webapplication/js/jquery-1.11.1.min.js"></script>
 <script src="/assignment5-webapplication/js/load_header.js"></script>
 <script src="/assignment5-webapplication/js/continentCenterCoords.js"></script>
@@ -72,8 +72,8 @@
 					}
 				});
 			</script>
-		</div><br />
-			<div id="map-canvas"></div><br /><br />
+		</div><br></br>
+			<div id="map-canvas"></div><br></br><br></br>
 					<script type="text/javascript"> /* This script uses Java to display the map. */
 		var map;
 	      function initialize() {

@@ -11,5 +11,6 @@ In tomcat-users.xml, you need to add the following 2 lines:
 Then, you need to uncomment (if necessary) and run the mysql  
 script a5\_database\_creation.sql found in our app's folder.  
 To view the initial data upload page, you need to be logged in  
-with a username of 'admin'.
-
+with a username of 'admin'.  
+To see our web service location-based search's progress go to  
+http://localhost:8080/assignment5-webapplication/rest/search?lat=32.777767&lon=35.021707&dist=500

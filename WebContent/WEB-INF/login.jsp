@@ -47,9 +47,8 @@
 	<input type="password" name="j_password" onfocus="if (this.value=='Password') this.value=''" value="Password"
 	 onblur="if (this.value=='') this.value='Password'"/><br /><br />
 	<input type="submit" id="btnSubmit" name="btnSubmit" value="Log In" />
-</form>
-<br />
-<h2 class="text-center">Or, Register</h2>
+</form><br />
+<h3 class="text-center">Or, Register</h3><br />
 <form name="input" class="text-center" action="j_security_check" method="post">
 	<input type="text" name="firstname" onfocus="if (this.value=='First Name') this.value=''"
 		value="First Name"

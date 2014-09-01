@@ -26,7 +26,6 @@
 			LinkedList<User> allUsers = db.getAllUsers();
 			request.setAttribute("test", allUsers);
 		%>
-
 		<center>
 			<font size="4"> <display:table name="test" pagesize="10">
 					<display:setProperty name="paging.banner.item_name" value="user" />
@@ -34,7 +33,8 @@
 					<display:setProperty name="paging.banner.one_item_found" value="" />
 					<display:setProperty name="paging.banner.all_items_found" value="" />
 					<display:setProperty name="basic.msg.empty_list" value="None" />
-					<display:setProperty name="paging.banner.some_items_found" value="<span class='pagebanner'>{0} total {1}, displaying {2} to {3}. </span>" />
+					<display:setProperty name="paging.banner.some_items_found"
+					value="<span class='pagebanner'>{0} total {1}, displaying {2} to {3}. </span>" />
 					<display:setProperty name="paging.banner.onepage" value="" />			
 					<display:column property="username" title="Username"
 						style="width:155px;" sortable="true" />&nbsp;

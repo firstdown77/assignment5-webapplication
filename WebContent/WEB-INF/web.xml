@@ -1,59 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns="http://java.sun.com/xml/ns/javaee"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
-	id="WebApp_ID" version="3.0">
-	<display-name>assignment5-webapplication</display-name>
-	<welcome-file-list>
-		<welcome-file>members/index.jsp</welcome-file>
-	</welcome-file-list>
-	<security-constraint>
-
-		<display-name>URLsConstraintMechanism</display-name>
-		<web-resource-collection>
-			<web-resource-name>clientURL</web-resource-name>
-			<description>Required access to specified URL with client permissions </description>
-			<url-pattern>/members/*</url-pattern>
-			<http-method>GET</http-method>
-			<http-method>POST</http-method>
-		</web-resource-collection>
-<!-- 		... (more web-resource-collections here)
- -->
-		<auth-constraint>
-			<description>Required privileges to access securely constraint URLs.</description>
-			<role-name>normal</role-name>
-		</auth-constraint>
-
-		<user-data-constraint>
-			<!-- transport-guarantee can be CONFIDENTIAL, INTEGRAL, or NONE -->
-			<transport-guarantee>NONE</transport-guarantee>
-		</user-data-constraint>
-
-	</security-constraint>
-
-		<login-config>
-			<auth-method>FORM</auth-method>
-			<form-login-config>
-				<form-login-page>/WEB-INF/login.jsp</form-login-page>
-				<form-error-page>/WEB-INF/login.jsp?login_failed=true</form-error-page>				
-			</form-login-config>
-		</login-config>
-
-		<security-role>
-			<description>Required privileges to access securely constraint URLs.</description>
-			<role-name>normal</role-name>
-		</security-role>
-		<servlet>
-		<display-name>Rest Servlet</display-name>
-		<servlet-name>RestServlet</servlet-name>
-		<servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
-		<init-param>
-			<param-name>com.sun.jersey.config.property.packages</param-name>
-			<param-value>coreservlets</param-value>
-		</init-param>
-		</servlet>
-		<servlet-mapping>
-			<servlet-name>RestServlet</servlet-name>
-			<url-pattern>/rest/*</url-pattern>
-		</servlet-mapping>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+  <display-name>assignment5-webapplication</display-name>
+  <welcome-file-list>
+    <welcome-file>members/index.jsp</welcome-file>
+  </welcome-file-list>
+  <security-constraint>
+    <display-name>URLsConstraintMechanism</display-name>
+    <web-resource-collection>
+      <web-resource-name>clientURL</web-resource-name>
+      <description>Required access to specified URL with client permissions </description>
+      <url-pattern>/members/*</url-pattern>
+      <http-method>GET</http-method>
+      <http-method>POST</http-method>
+    </web-resource-collection>
+    <auth-constraint>
+      <description>Required privileges to access securely constraint URLs.</description>
+      <role-name>normal</role-name>
+    </auth-constraint>
+    <user-data-constraint>
+      <transport-guarantee>NONE</transport-guarantee>
+    </user-data-constraint>
+  </security-constraint>
+  <login-config>
+    <auth-method>FORM</auth-method>
+    <form-login-config>
+      <form-login-page>/WEB-INF/login.jsp</form-login-page>
+      <form-error-page>/WEB-INF/login.jsp?login_failed=true</form-error-page>
+    </form-login-config>
+  </login-config>
+  <security-role>
+    <description>Required privileges to access securely constraint URLs.</description>
+	<role-name>normal</role-name>
+  </security-role>
+<context-param>
+<param-name>org.restlet.application</param-name>
+<param-value>
+coreservlets.SearchApplication
+</param-value>
+</context-param>
+<servlet>
+<servlet-name>RestletServlet</servlet-name>
+<servlet-class>
+org.restlet.ext.servlet.ServerServlet
+</servlet-class>
+</servlet>
+<servlet-mapping>
+<servlet-name>RestletServlet</servlet-name>
+<url-pattern>/rest/*</url-pattern>
+</servlet-mapping>
 </web-app>
