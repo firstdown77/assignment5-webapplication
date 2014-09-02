@@ -13,7 +13,7 @@ public class SearchApplication extends Application {
 		// new instance of HelloWorldResource.
 		Router router = new Router(getContext());
 		// Defines only one route
-		router.attach("/search", SearchResource.class);
+		router.attach("", SearchResource.class);
 		return router;
 	}
 }

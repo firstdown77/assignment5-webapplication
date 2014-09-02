@@ -48,6 +48,6 @@ public class SearchResource extends ServerResource {
 			reportsArray.put(currReport);
 		}
 		finalJSON.put("reports", reportsArray);
-		return finalJSON.toString(4);
+		return finalJSON.toString(2);
 	}
 }
