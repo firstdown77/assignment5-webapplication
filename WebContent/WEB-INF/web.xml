@@ -46,6 +46,6 @@ org.restlet.ext.servlet.ServerServlet
 </servlet>
 <servlet-mapping>
 <servlet-name>RestletServlet</servlet-name>
-<url-pattern>/rest/search/*</url-pattern>
+<url-pattern>/search/*</url-pattern>
 </servlet-mapping>
 </web-app>
