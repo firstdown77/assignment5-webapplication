@@ -3,8 +3,8 @@
  * a new user in the system.
  */
 
-function createUser(username, password, firstname, lastname) {
-	$.ajax({
+function createUser(event, username, password, firstname, lastname) {
+	var result = $.ajax({
 		url: "/assignment5-webapplication/create_user",
 		type: "post",
 	    async: false,
@@ -15,6 +15,20 @@ function createUser(username, password, firstname, lastname) {
             lastname: lastname
 	    },
 	    success: function(data) {
+		},
+		error: function(data) {
+			event.preventDefault();
+			if (data.status === 509) {
+				$("#status_message").fadeTo(0, 1);
+				$("#status_message").html("Whoops, registration didn't work.  Make sure all the fields are completed.");
+			}
+			else if (data.status === 500) {
+				$("#status_message").fadeTo(0, 1);
+				$("#status_message").html("Whoops, registration didn't work. Try a different username.");
+			}
+			$('#status_message').fadeIn(300).delay(1500).fadeTo(300, 0);
+			
 		}
 	});
+	return result.status != 500;
 }
