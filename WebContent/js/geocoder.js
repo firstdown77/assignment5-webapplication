@@ -36,3 +36,17 @@ function doGeoCode(address, lat, lon) {
 		$('#address').val(formatted_address);
 	}
 }
+
+function translateAddress(address, callback) {
+	$.ajax({
+		url : "https://maps.googleapis.com/maps/api/geocode/json?address="
+			+ address
+			+ "&key=AIzaSyBPihpCUn2xSaRqNv9KM1_MEAf-iS6sJ-Q",
+			type : "get",
+			dataType: "json",
+			async : true,
+			data : {},
+			success: callback
+	});
+	
+}
