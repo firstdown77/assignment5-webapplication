@@ -603,9 +603,9 @@ public class DatabaseMethods {
 	public int uploadInitialReports(JSONObject root) {
 		open();
 		int count = 0;
-		String SQL_QUERY = "INSERT INTO reports (report_id, username, address, latitude,"
+		String SQL_QUERY = "INSERT INTO reports (username, address, latitude,"
 				+ " longitude, radius, title, textcontent, content, filename) "
-				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE "
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE "
 				+ "username=VALUES(username), address=VALUES(address), latitude="
 				+ "VALUES(latitude), longitude=VALUES(longitude), radius="
 				+ "VALUES(radius), title=VALUES(title), textcontent=VALUES(textcontent),"
@@ -618,7 +618,6 @@ public class DatabaseMethods {
 				// Note: I take a shortcut here so that instead of having to re-write a lot of code
 				// to allow for String ids, I calculate the given id's hashcode of type long
 				// and use that as the id for reports - because the id type has previously been a long.
-				Long report_id = Long.valueOf(reportObject.getString("id").hashCode());
 				String username = reportObject.getString("user");
 				JSONObject geometryObject = reportObject.getJSONObject("geometry");
 				String type = geometryObject.getString("type");
@@ -644,38 +643,37 @@ public class DatabaseMethods {
 				title = StringEscapeUtils.escapeHtml4(title);
 				textcontent = StringEscapeUtils.escapeHtml4(textcontent);
 				filename = StringEscapeUtils.escapeHtml4(filename);
-				Report r = new Report(report_id, username, null, latitude, longitude, title, radius, textcontent, content, filename);
+				Report r = new Report(null, username, null, latitude, longitude, title, radius, textcontent, content, filename);
 				r.setUser(StringEscapeUtils.escapeJava(r.getUser()));
 				r.setAddress(StringEscapeUtils.escapeJava(r.getAddress()));
 				r.setTitle(StringEscapeUtils.escapeJava(r.getTitle()));
 				r.setTextcontent(StringEscapeUtils.escapeJava(r.getTextcontent()));
 				r.setFilename(StringEscapeUtils.escapeJava(r.getFilename()));
 				pst = con.prepareStatement(SQL_QUERY);
-				pst.setLong(1, r.get_id());
-				pst.setString(2, r.getUser());
-				pst.setString(3, r.getAddress());
+				pst.setString(1, r.getUser());
+				pst.setString(2, r.getAddress());
 				if (r.getLatitude() == null) {
+					pst.setNull(3, Types.DOUBLE);
+				}
+				else {
+					pst.setDouble(3, r.getLatitude());
+				}
+				if (r.getLongitude() == null) {
 					pst.setNull(4, Types.DOUBLE);
 				}
 				else {
-					pst.setDouble(4, r.getLatitude());
+					pst.setDouble(4, r.getLongitude());
 				}
-				if (r.getLongitude() == null) {
+				if (r.getRadius() == null) {
 					pst.setNull(5, Types.DOUBLE);
 				}
 				else {
-					pst.setDouble(5, r.getLongitude());
+					pst.setDouble(5, r.getRadius());
 				}
-				if (r.getRadius() == null) {
-					pst.setNull(6, Types.DOUBLE);
-				}
-				else {
-					pst.setDouble(6, r.getRadius());
-				}
-				pst.setString(7, r.getTitle());
-				pst.setString(8, r.getTextcontent());
-				pst.setBlob(9, r.getContent());
-				pst.setString(10, r.getFilename());
+				pst.setString(6, r.getTitle());
+				pst.setString(7, r.getTextcontent());
+				pst.setBlob(8, r.getContent());
+				pst.setString(9, r.getFilename());
 				count += pst.executeUpdate();
 			} catch (Exception e) {
 				e.printStackTrace();

@@ -60,7 +60,7 @@
 		onblur="if (this.value=='') this.value='Username'" /><br /> <br />
 	<input type="password" name="j_password" onfocus="if (this.value=='Password') this.value=''"
 		value="Password" onblur="if (this.value=='') this.value='Password'" /><br />
-	<br /> <input type="submit" onclick="createUser(j_username.value, j_password.value, firstname.value, lastname.value)" value="Register" />
+	<br /> <input type="submit" onclick="createUser(event, j_username.value, j_password.value, firstname.value, lastname.value)" value="Register" />
 </form>
 </body>
 </html>

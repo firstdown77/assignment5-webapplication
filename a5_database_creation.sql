@@ -1,7 +1,7 @@
 -- CREATE DATABASE disasterevacuationdb;
-
-USE disasterevacuationdb;
-
+--
+-- USE disasterevacuationdb;
+--
 -- CREATE TABLE reports (
 -- report_id integer NOT NULL AUTO_INCREMENT PRIMARY KEY,
 -- address VARCHAR(150),
@@ -14,23 +14,23 @@ USE disasterevacuationdb;
 -- content MEDIUMBLOB,
 -- filename VARCHAR(100)
 -- );
-   
+--   
 -- ALTER TABLE reports ADD INDEX(username);
-
+--
 -- CREATE TABLE users (
 -- user_id integer NOT NULL AUTO_INCREMENT PRIMARY KEY,
 -- username VARCHAR(20) UNIQUE NOT NULL,
 -- password_hash VARCHAR(250) NOT NULL,
--- firstname VARCHAR(20),
--- lastname VARCHAR(20),
+-- firstname VARCHAR(20) NOT NULL,
+-- lastname VARCHAR(20) NOT NULL,
 -- joindate DATE
 -- );
-   
+--   
 -- CREATE TABLE user_roles (
 --   username VARCHAR(20) NOT NULL,
 --   rolename VARCHAR(15) NOT NULL,
 --   PRIMARY KEY (username, rolename)
 -- );
-
+--
 -- CREATE USER 'tomcat'@'localhost' IDENTIFIED BY 'tomcat';
 -- GRANT SELECT ON disasterevacuationdb.* TO tomcat@localhost;
