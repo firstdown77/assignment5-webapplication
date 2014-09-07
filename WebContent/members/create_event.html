@@ -5,16 +5,87 @@
 <link rel="stylesheet" href="/assignment5-webapplication/css/bootstrap.min.css" type="text/css" />
 <link rel="stylesheet" href="/assignment5-webapplication/css/header.css" type="text/css" />
 <link rel="stylesheet" href="/assignment5-webapplication/js/jquery-ui/jquery-ui.css">
+<link rel="stylesheet" href="/assignment5-webapplication/css/googlemapcode.css" type="text/css" />
+<script src="/assignment5-webapplication/js/continentCenterCoords.js"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5VLYkZvLXln72Q2FaNEj6O3H2F0yZsVY"></script>
 <script src="/assignment5-webapplication/js/jquery-1.11.1.min.js"></script>
 <script src="/assignment5-webapplication/js/jquery-ui/jquery-ui.js"></script>
 <script src="/assignment5-webapplication/js/load_header.js"></script>
 <script src="/assignment5-webapplication/js/geocoder.js"></script>
  <script>
+
+    var map; 
+ function initializeMap() {
+	  
+}
+ 
 $(function() {
 $( "#datepicker" ).datepicker();
+$("#capacity").on ('keydown', function(e){
+	// Allow: backspace, delete, tab, escape, enter and .
+    if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+         // Allow: Ctrl+A
+        (e.keyCode == 65 && e.ctrlKey === true) || 
+         // Allow: home, end, left, right
+        (e.keyCode >= 35 && e.keyCode <= 39)) {
+             // let it happen, don't do anything
+             return;
+    }
+    // Ensure that it is a number and stop the keypress
+    if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+        e.preventDefault();
+    }
 });
+
+$('#continents').on('change', function() {
+	if (this.value==="northamerica") {
+		map.setCenter(new google.maps.LatLng(
+				ContinentCoords.northamerica.lat,
+				ContinentCoords.northamerica.lon));
+	}
+	else if (this.value==="southamerica") {
+		map.setCenter(new google.maps.LatLng(
+				ContinentCoords.southamerica.lat,
+				ContinentCoords.southamerica.lon))
+	}
+	else if (this.value==="europe") {
+		map.setCenter(new google.maps.LatLng(
+				ContinentCoords.europe.lat, 
+				ContinentCoords.europe.lon));
+	}
+	else if (this.value==="asia") {
+		map.setCenter(new google.maps.LatLng(
+				ContinentCoords.asia.lat, 
+				ContinentCoords.asia.lon));
+	}
+	else if (this.value==="africa") {
+		map.setCenter(new google.maps.LatLng(
+				ContinentCoords.africa.lat,
+				ContinentCoords.africa.lon));
+	}
+	else if (this.value==="australia") {
+		map.setCenter(new google.maps.LatLng(
+				ContinentCoords.australia.lat,
+				ContinentCoords.australia.lon));
+	}
+});
+
+for (i=0; i < 24; i++)
+{
+	var opt = '<option value=' + i + '>' + i + '</option>';
+	$('#hour').append(opt);
+}
+
+for (i=0; i < 60; i++)
+{
+	var opt = '<option value=' + i + '>' + i + '</option>';
+	$('#minute').append(opt);
+}
+});
+
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII" />
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 <title>Create Evacuation Event</title>
 </head>
 <body>
@@ -24,34 +95,50 @@ $( "#datepicker" ).datepicker();
 	<br />
 	<form name="input" action="create_event" method="post"
 		class="text-center" enctype="multipart/form-data">
-		<input type="text" name="title"
-			onfocus="if (this.value==='Title') this.value=''" value="Title"
-			onblur="if (this.value=='') this.value='Title'" /><br />
-		<br /> Date: <input type="text" id="datepicker"/>
+		Title: <input type="text" name="title"/><br />
+		<br /> 
+		Date: <input type="text" id="datepicker"/>
 		<br />
-				<input type="hidden" name="latitude" id="latitude"
-				onfocus="if (this.value==='Latitude') this.value=''" value="Latitude"
-				onblur="if (this.value=='') this.value='Latitude'" />
-				<input type="hidden" style="position:relative;" name="longitude" id="longitude"
-				onfocus="if (this.value==='Longitude') this.value=''"
-				value="Longitude" onblur="if (this.value=='') this.value='Longitude'" />
-		<br /> <input type="text" name="radius"
-			onfocus="if (this.value==='Radius (km)') this.value=''" value="Radius (km)"
-			onblur="if (this.value=='') this.value='Radius (km)'" /><br />
+				<input type="hidden" name="latitude" id="latitude"/>
+				<input type="hidden" name="longitude" id="longitude"/>
+		<br />	Hour: <select id="hour" name="hour"></select>Minute: <select id="minute" name="minute"></select>  
 		<br />
-		 <textarea name="textcontent" rows="4" cols="50" 
-		 onfocus="if (this.value==='Write report content...') this.value=''"
-		 onblur="if (this.value=='') this.value='Write report content...'"
-		 >Write report content...</textarea><br /><br />
-		<center>
-			Additional Content: &nbsp;&nbsp;<input type="file" style="display:inline;" name="content"
-				onfocus="if (this.value==='Content') this.value=''" value="Content"
-				onblur="if (this.value=='') this.value='Content'" />
-		</center>
+		 Means of evacuation: <input type="text" name="means" id="means"/><br />
+		 <br />
+		 Capacity: <input type="text" id="capacity" name="capacity"/>
+		 <br />
+		 Location:
 		<br />
-		<br /> <input type="submit"
-			onclick="doGeoCode(document.getElementById('address').value, document.getElementById('latitude').value, document.getElementById('longitude').value)"
-			value="Create Report" />
+		<div class="text-center">
+			<select id="continents" name="continents">
+				<option value="choose">Choose a continent...</option>
+				<option value="northamerica">North America</option>
+				<option value="southamerica">South America</option>
+				<option value="europe">Europe</option>
+				<option value="asia">Asia</option>
+				<option value="africa">Africa</option>
+				<option value="australia">Australia</option>
+			</select>
+		</div>
+		<script type="text/javascript"> /* This script uses Java to display the map. */
+		var map;
+	      function initialize() {
+	    	  var mapOptions = {
+	    	  	zoom: 3,
+	    		center: new google.maps.LatLng(37.09024, -95.712891),
+	    		mapTypeId: google.maps.MapTypeId.TERRAIN
+	    	  };
+	
+	        map = new google.maps.Map(document.getElementById("map-canvas"),
+	            mapOptions);
+	    }
+		google.maps.event.addDomListener(window, 'load', initialize);
+		</script> <!-- End script with Java -->
+		
+		<div id="map-canvas"></div> 
+		<br/>
+		<input type="submit"
+			value="Create Event" />
 	</form>
 </body>
 </html>

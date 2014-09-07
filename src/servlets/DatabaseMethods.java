@@ -560,7 +560,7 @@ public class DatabaseMethods {
 		return result;
 	}
 	
-	public int uploadInitialUsers(JSONObject root) {
+	public int uploadInitialUsers(JSONObject root) throws JSONException {
 		open();
 		int count = 0;
 		String SQL_QUERY = "INSERT INTO users (username, password_hash, firstname,"
@@ -600,7 +600,7 @@ public class DatabaseMethods {
 		return count;
 	}
 
-	public int uploadInitialReports(JSONObject root) {
+	public int uploadInitialReports(JSONObject root) throws JSONException {
 		open();
 		int count = 0;
 		String SQL_QUERY = "INSERT INTO reports (username, address, latitude,"
