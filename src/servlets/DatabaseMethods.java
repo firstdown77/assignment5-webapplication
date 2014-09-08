@@ -323,6 +323,16 @@ public class DatabaseMethods {
 				+ (r.getContent() instanceof ByteArrayInputStream ? "" : ", filename=?, content=? ")+
 				"WHERE report_id=?";
 		PreparedStatement pst;
+		r.setUser(StringEscapeUtils.escapeHtml4(r.getUser()));
+		r.setAddress(StringEscapeUtils.escapeHtml4(r.getAddress()));
+		r.setTitle(StringEscapeUtils.escapeHtml4(r.getTitle()));
+		r.setTextcontent(StringEscapeUtils.escapeHtml4(r.getTextcontent()));
+		r.setFilename(StringEscapeUtils.escapeHtml4(r.getFilename()));
+		r.setUser(StringEscapeUtils.escapeJava(r.getUser()));
+		r.setAddress(StringEscapeUtils.escapeJava(r.getAddress()));
+		r.setTitle(StringEscapeUtils.escapeJava(r.getTitle()));
+		r.setTextcontent(StringEscapeUtils.escapeJava(r.getTextcontent()));
+		r.setFilename(StringEscapeUtils.escapeJava(r.getFilename()));
 		try {
 			pst = con.prepareStatement(SQL_QUERY);
 			pst.setString(1, r.getUser());
