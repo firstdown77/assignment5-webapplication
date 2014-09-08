@@ -13,6 +13,8 @@
 -- textcontent TEXT,
 -- content MEDIUMBLOB,
 -- filename VARCHAR(100)
+-- CONSTRAINT foreignuser FOREIGN KEY (username)
+--      REFERENCES users (username) ON DELETE CASCADE
 -- );
 
 -- CREATE TABLE events (
@@ -37,8 +39,8 @@
 -- ALTER TABLE reports ADD INDEX(username);
 --
 -- CREATE TABLE users (
--- user_id integer NOT NULL AUTO_INCREMENT PRIMARY KEY,
--- username VARCHAR(20) UNIQUE NOT NULL,
+-- user_id integer NOT NULL AUTO_INCREMENT,
+-- username VARCHAR(20) UNIQUE NOT NULL PRIMARY KEY,
 -- password_hash VARCHAR(250) NOT NULL,
 -- firstname VARCHAR(20) NOT NULL,
 -- lastname VARCHAR(20) NOT NULL,

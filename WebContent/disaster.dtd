@@ -1,0 +1,22 @@
+<!DOCTYPE disaster
+[
+<!ELEMENT disasterevacuation (reports, events)>
+<!ELEMENT reports (report+)>
+<!ELEMENT events (event+)>
+<!ELEMENT report (address, longitude, latitude, radius, title, textcontent)>
+<!ELEMENT event (longitude, latitude, evacuationmeans)>
+<!ELEMENT address (#PCDATA)>
+<!ELEMENT longitude (#PCDATA)>
+<!ELEMENT latitude (#PCDATA)>
+<!ELEMENT radius (#PCDATA)>
+<!ELEMENT title (#PCDATA)>
+<!ELEMENT textcontent (#PCDATA)>
+<!ELEMENT evacuationmeans (#PCDATA)>
+
+<!ATTLIST report id CDATA #REQUIRED>
+<!ATTLIST report username CDATA #REQUIRED>
+
+<!ATTLIST event id CDATA #REQUIRED>
+<!ATTLIST event username CDATA #REQUIRED>
+<!ATTLIST event capacity CDATA #REQUIRED>
+]>

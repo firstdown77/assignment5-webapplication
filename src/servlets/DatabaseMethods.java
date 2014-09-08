@@ -14,10 +14,14 @@ import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.sql.Types;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.json.JSONArray;
@@ -36,7 +40,7 @@ public class DatabaseMethods {
 	private String dbName = "disasterevacuationdb";
 	private String driver = "com.mysql.jdbc.Driver";
 	private String userName = "root";
-	private String password = "1234";
+	private String password = "root";
 	private boolean isOpen = false;
 
 	public void open()
@@ -563,11 +567,53 @@ public class DatabaseMethods {
 			JSONObject root = new JSONObject(tokener);
 			result += uploadInitialReports(root);
 			result += uploadInitialUsers(root);
+			result += uploadInitialEvents(root);
 		} catch (JSONException e) {
 			e.printStackTrace();
 			return 0;
 		}
 		return result;
+	}
+	
+	public int uploadInitialEvents(JSONObject root) throws JSONException {
+		open();
+		int count = 0;
+		String SQL_QUERY = "INSERT INTO events (date, username, longitude,"
+				+ " latitude, capacity, evacuation_means) VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE "
+				+ "date=VALUES(date), username=VALUES(username), "
+				+ "longitude=VALUES(longitude), latitude=VALUES(latitude), capacity="
+				+ "VALUES(capacity), evacuation_means=VALUES(evacuation_means)";
+		PreparedStatement pst;
+		JSONArray eventsRoot = root.getJSONArray("evacuationEvents");
+		for (int i = 0; i < eventsRoot.length(); i++) {
+			JSONObject eventObject = eventsRoot.getJSONObject(i);
+			try {
+				String meanOfEvacuation = eventObject.getString("meanOfEvacuation");
+				String estimatedTime = eventObject.getString("estimatedTime");
+				
+				Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss X", Locale.ENGLISH).parse(estimatedTime.replace('T', ' '));
+				DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
+				String reportDate = df.format(date);
+				int capacity = eventObject.getInt("capacity");
+				JSONObject geometryObject = eventObject.getJSONObject("geometry");
+				String type = geometryObject.getString("type");
+				JSONArray coordinatesArray = geometryObject.getJSONArray("coordinates");
+				Double latitude = coordinatesArray.getDouble(0);
+				Double longitude = coordinatesArray.getDouble(1);
+				pst = con.prepareStatement(SQL_QUERY);
+				pst.setString(1, reportDate);
+				pst.setString(2, UserVariables.adminUsername);
+				pst.setDouble(3, longitude);
+				pst.setDouble(4, latitude);
+				pst.setInt(5, capacity);
+				pst.setString(6, meanOfEvacuation);
+				count += pst.executeUpdate();
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		close();
+		return count;
 	}
 	
 	public int uploadInitialUsers(JSONObject root) throws JSONException {
@@ -693,9 +739,14 @@ public class DatabaseMethods {
 		return count;
 	}
 	
-	public ArrayList<Event> getUpcomingEvents() {
+	private ArrayList<Event> getEvents(boolean all) {
 		open();
-		String SQL_QUERY= "SELECT * from events WHERE date >= now()";
+		String SQL_QUERY;
+		if (!all)
+			SQL_QUERY= "SELECT * from events WHERE date >= now()";
+		else
+			SQL_QUERY= "SELECT * from events";
+		
 		Statement stmt;
 		Event e = null;
 		ArrayList<Event> hsr = new ArrayList<Event>();
@@ -726,6 +777,15 @@ public class DatabaseMethods {
 		}
 		return hsr;
 	}
+	
+	public ArrayList<Event> getAllEvents() {
+		return getEvents(true);
+	}
+	
+	public ArrayList<Event> getUpcomingEvents() {
+		return getEvents(false);
+	}
+	
 	public Event getEventById(Long id)
 	{
 		return getEventById(id, true);

@@ -80,7 +80,8 @@
 <%}else{ %>
 <div>
 	<p class='text-center report_details'>Date: <%=e.getDate()%></p>
-	<p class='text-center report_details'>Evacuation Means: <%=e.getEvacuationMeans() %></p> 
+	<p class='text-center report_details'>Evacuation Means: </p>
+	<p class='text-center report_details'><div id="divMeans" class="text-center  report_details "><%=e.getEvacuationMeans() %></div></p> 
 	<p class='text-center report_details'>Capacity: <%=e.getCapacity()%></p>
 </div>
 <script type='text/javascript'>

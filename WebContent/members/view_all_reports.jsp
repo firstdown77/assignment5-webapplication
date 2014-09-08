@@ -18,17 +18,22 @@ key=AIzaSyA5VLYkZvLXln72Q2FaNEj6O3H2F0yZsVY"></script>
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 <%
 		boolean events = false;
+		boolean upcoming = false;
 		DatabaseMethods db = new DatabaseMethods();
 		double lng = -95.712891;
 		double lat = 37.09024;
 		String mode = request.getParameter("mode");
 		if((mode != null)&&(mode.equals("events")))
 			events = true;
+		if((mode != null)&&(mode.equals("eventsUpcoming"))){
+			upcoming=true;
+			events=true;
+		}
 		if(!events){
 %>
 <title>View All Reports</title>
 <%}else{ %>
-<title>View All Events</title>
+<title>View Events</title>
 <%} %>
 </head>
 <body>
@@ -39,16 +44,20 @@ key=AIzaSyA5VLYkZvLXln72Q2FaNEj6O3H2F0yZsVY"></script>
 	<div id="content">
 	<%if (!events){ %>
 	<h2 class="text-center">View All Reports</h2>
-	<%}else{ %>
+	<%}else if (!upcoming){ %>
 	<h2 class="text-center">View All Events</h2>
+	<%}else{%>
+	<h2 class="text-center">View Upcoming Events</h2>
 	<%}
 	ArrayList<Report> allReports = new ArrayList<Report>();
 	ArrayList<Event> allEvents = new ArrayList<Event>();
 		
 	if (!events)	
 		allReports = db.getAllReports();
-	else
+	else if (upcoming)
 		allEvents = db.getUpcomingEvents();
+	else
+		allEvents = db.getAllEvents();
 	%>
 	<%	boolean empty = false; 
 	if (!events) {
