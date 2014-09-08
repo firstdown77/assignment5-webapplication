@@ -89,7 +89,7 @@ public class ViewReportServlet extends HttpServlet {
 	       		+ "var CONVERTTOKM = 1000;\n"
 	       		+ "var currCenter = new google.maps.LatLng(" + r.getLatitude() + ", " + r.getLongitude() + ");\n"
 	       		+ "var currRadius = " + r.getRadius() + " * CONVERTTOKM;\n"
-	       		+ "var currTitle = '" + r.getTitle() + "';\n"
+	       		+ "var currTitle = '" + r.getTitle().replaceAll("'", "&#39;") + "';\n"
 	       		+ "var populationOptions = {\n"
 	       		+ "strokeColor: '#FF0000',\n"
 	       		+ "strokeOpacity: 0.8,\n"
