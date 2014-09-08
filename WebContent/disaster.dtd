@@ -1,5 +1,3 @@
-<!DOCTYPE disaster
-[
 <!ELEMENT disasterevacuation (reports, events)>
 <!ELEMENT reports (report+)>
 <!ELEMENT events (event+)>
@@ -19,4 +17,3 @@
 <!ATTLIST event id CDATA #REQUIRED>
 <!ATTLIST event username CDATA #REQUIRED>
 <!ATTLIST event capacity CDATA #REQUIRED>
-]>
