@@ -25,15 +25,11 @@ public class CreateUser extends HttpServlet {
 		String lastname = req.getParameter("lastname");
 		String username = req.getParameter("username");
 		String password = req.getParameter("password");
+		if (firstname.equals("First Name") || firstname.equals("")) {
+			firstname = null;
+		}
 		if (lastname.equals("Last Name") || lastname.equals("")) {
 			lastname = null;
-			resp.setStatus(509);
-			return;
-		}
-		if (firstname.equals("First Name") || username.equals("")) {
-			firstname = null;
-			resp.setStatus(509);
-			return;
 		}
 		if (username.equals("Username") || username.equals("")) {
 			username = null;

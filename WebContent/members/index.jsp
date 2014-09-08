@@ -48,7 +48,23 @@
 		}
 	%>
 	<br /><br />
-	<h3 class="text-center"><%= u.getFirstName() + " " + u.getLastName() + ", member since " + sdf.format(u.getJoinDate()) %></h3>
+	<% String formattedDate = null;
+		String memberSinceString = "";
+		if (u.getJoinDate() != null) {
+			formattedDate = sdf.format(u.getJoinDate());
+			memberSinceString = ", member since " + formattedDate;
+		}
+	%>
+	}
+	<% if (u.getFirstName() == null && u.getLastName() == null) { %>
+		<h3 class="text-center"><%= "Anonymous" + memberSinceString %></h3>
+	<% } else if (u.getFirstName() == null && u.getLastName() != null) { %>
+		<h3 class="text-center"><%= u.getLastName() + memberSinceString %></h3>
+	<% } else if (u.getFirstName() != null && u.getLastName() == null) { %>
+		<h3 class="text-center"><%= u.getFirstName() + memberSinceString %></h3>
+	<% } else { %>
+		<h3 class="text-center"><%= u.getFirstName() + " " + u.getLastName() + memberSinceString %></h3>
+	<% } %>
 	<p>
 	<br />
 	<div style='width: 700px; margin:0 auto;'>

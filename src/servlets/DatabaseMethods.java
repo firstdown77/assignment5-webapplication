@@ -563,6 +563,7 @@ public class DatabaseMethods {
 			JSONObject root = new JSONObject(tokener);
 			result += uploadInitialReports(root);
 			result += uploadInitialUsers(root);
+			result += uploadInitialUserRoles(root);
 		} catch (JSONException e) {
 			e.printStackTrace();
 			return 0;
@@ -601,6 +602,30 @@ public class DatabaseMethods {
 				pst.setString(3, u.getFirstName());
 				pst.setString(4, u.getLastName());
 				pst.setString(5, null);
+				count += pst.executeUpdate();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		close();
+		return count;
+	}
+	
+	public int uploadInitialUserRoles(JSONObject root) throws JSONException {
+		open();
+		int count = 0;
+		String SQL_QUERY = "INSERT INTO user_roles (username, rolename) VALUES (?, ?) ON DUPLICATE KEY UPDATE "
+				+ "username=VALUES(username), rolename=VALUES(rolename)";
+		PreparedStatement pst;
+		JSONArray usersRoot = root.getJSONArray("users");
+		for (int i = 0; i < usersRoot.length(); i++) {
+			JSONObject userObject = usersRoot.getJSONObject(i);
+			try {
+				String username = userObject.getString("username");
+				String rolename = "normal";
+				pst = con.prepareStatement(SQL_QUERY);
+				pst.setString(1, username);
+				pst.setString(2, rolename);
 				count += pst.executeUpdate();
 			} catch (Exception e) {
 				e.printStackTrace();
