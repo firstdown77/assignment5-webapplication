@@ -4,6 +4,7 @@ import java.awt.geom.Ellipse2D;
 import java.util.HashSet;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.restlet.resource.Get;
 import org.restlet.resource.ServerResource;
@@ -16,7 +17,7 @@ import dbObjects.Report;
  */
 public class SearchResource extends ServerResource {
 	@Get
-	public String represent() {
+	public String represent() throws JSONException {
 		Double lat = Double.parseDouble(getQueryValue("lat"));
 		Double lon = Double.parseDouble(getQueryValue("lon"));
 		Double dist = Double.parseDouble(getQueryValue("dist"));

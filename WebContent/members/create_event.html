@@ -1,0 +1,241 @@
+<html>
+<head>
+<link rel="stylesheet" href="/assignment5-webapplication/css/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" href="/assignment5-webapplication/css/view_report.css" type="text/css" />
+<link rel="stylesheet" href="/assignment5-webapplication/css/header.css" type="text/css" />
+<link rel="stylesheet" href="/assignment5-webapplication/css/googlemapcode.css" type="text/css" />
+<link rel="stylesheet" href="/assignment5-webapplication/js/jquery-ui/jquery-ui.css"/>
+<script src="/assignment5-webapplication/js/jquery-1.11.1.min.js"></script>
+<script src="/assignment5-webapplication/js/jquery-ui/jquery-ui.js"></script>
+<script src="/assignment5-webapplication/js/load_header.js"></script>
+<script src="/assignment5-webapplication/js/continentCenterCoords.js"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?
+key=AIzaSyA5VLYkZvLXln72Q2FaNEj6O3H2F0yZsVY"></script>
+<script src="/assignment5-webapplication/js/geocoder.js"></script>
+<script src="/assignment5-webapplication/js/jquery.validate.min.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII" />
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<title>Create Evacuation Event</title>
+
+<script>
+(function($,W,D)
+		{
+		    var JQUERY4U = {};
+		 
+		    JQUERY4U.UTIL =
+		    {
+		        setupFormValidation: function()
+		        {
+		            //form validation rules
+		            $("#createEvent").validate({
+		                rules: {
+		                	datepicker:{
+		                		required: true,
+		                		date: true
+		                	},
+		                    means: "required",
+		                    capacity: {
+		                    	required: true,
+		                    	max: 99999,
+		                    	number: true,
+		                    },
+		                },
+		                messages: {
+		                	datepicker: "Please enter the event date",
+		                	means: "Please enter means of evacuation",
+		                	capacity: {
+		                		required: "Please enter the capacity",
+		                		max: "Maximum number exceeded",
+		                	},
+		                },
+		                submitHandler: function(form) {
+		                    form.submit();
+		                }
+		            });
+		        }
+		    }
+		 
+		    //when the dom has loaded setup form validation rules
+		    $(D).ready(function($) {
+		        JQUERY4U.UTIL.setupFormValidation();
+		    });
+		 
+		})(jQuery, window, document);
+
+$(function() {
+$( "#datepicker" ).datepicker();
+$("#capacity").on ('keydown', function(e){
+	// Allow: backspace, delete, tab, escape, enter and .
+    if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+         // Allow: Ctrl+A
+        (e.keyCode == 65 && e.ctrlKey === true) || 
+         // Allow: home, end, left, right
+        (e.keyCode >= 35 && e.keyCode <= 39)) {
+             // let it happen, don't do anything
+             return;
+    }
+    // Ensure that it is a number and stop the keypress
+    if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+        e.preventDefault();
+    }
+});
+
+$('#continents').on('change', function() {
+	if (this.value==="northamerica") {
+		map.setCenter(new google.maps.LatLng(
+				ContinentCoords.northamerica.lat,
+				ContinentCoords.northamerica.lon));
+	}
+	else if (this.value==="southamerica") {
+		map.setCenter(new google.maps.LatLng(
+				ContinentCoords.southamerica.lat,
+				ContinentCoords.southamerica.lon))
+	}
+	else if (this.value==="europe") {
+		map.setCenter(new google.maps.LatLng(
+				ContinentCoords.europe.lat, 
+				ContinentCoords.europe.lon));
+	}
+	else if (this.value==="asia") {
+		map.setCenter(new google.maps.LatLng(
+				ContinentCoords.asia.lat, 
+				ContinentCoords.asia.lon));
+	}
+	else if (this.value==="africa") {
+		map.setCenter(new google.maps.LatLng(
+				ContinentCoords.africa.lat,
+				ContinentCoords.africa.lon));
+	}
+	else if (this.value==="australia") {
+		map.setCenter(new google.maps.LatLng(
+				ContinentCoords.australia.lat,
+				ContinentCoords.australia.lon));
+	}
+});
+
+
+for (i=0; i < 24; i++)
+{
+	var opt = '<option value=' + i + '>' + i + '</option>';
+	$('#hour').append(opt);
+}
+
+for (i=0; i < 60; i++)
+{
+	var opt = '<option value=' + i + '>' + i + '</option>';
+	$('#minute').append(opt);
+}
+});
+
+var map;
+var markersArray = [];
+
+function initialize() {
+	  var mapOptions = {
+	  	zoom: 3,
+		center: new google.maps.LatLng(37.09024, -95.712891),
+		mapTypeId: google.maps.MapTypeId.TERRAIN
+	  };
+
+  map = new google.maps.Map(document.getElementById("map-canvas"),
+      mapOptions);
+  center = map.getCenter();
+  placeMarker(center);
+  $("#latitude").val(center.lat());
+  $("#longitude").val(center.lng());
+  
+//add a click event handler to the map object
+  google.maps.event.addListener(map, "click", function(event)
+  {
+      // place a marker
+      placeMarker(event.latLng);
+
+      // display the lat/lng in your form's lat/lng fields
+      $("#latitude").val(event.latLng.lat());
+      $("#longitude").val(event.latLng.lng());
+  });
+  
+}
+
+function placeMarker(location) {
+    // first remove all markers if there are any
+    deleteOverlays();
+
+    var marker = new google.maps.Marker({
+        position: location, 
+        map: map
+    });
+
+    // add marker in markers array
+    markersArray.push(marker);
+
+    //map.setCenter(location);
+}
+
+// Deletes all markers in the array by removing references to them
+function deleteOverlays() {
+    if (markersArray) {
+        for (i in markersArray) {
+            markersArray[i].setMap(null);
+        }
+    markersArray.length = 0;
+    }
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+
+function setMapCoords(data, textStatus)
+{
+	if (data.results.length > 0)
+	{
+		var lat = data.results[0].geometry.location.lat;
+		var lng = data.results[0].geometry.location.lng;
+		$('#latitude').val(lat);
+		$('#longitude').val(lng);
+		var center = new google.maps.LatLng(lat, lng);
+		map.setCenter(center);
+		placeMarker(center)
+		if (map.getZoom() < 12)
+			map.setZoom(12);
+	}
+}
+</script>
+
+</head>
+<body>
+	<div id="header"></div>
+	<div id="content-body-wrapper" class="content-body-wrapper">
+    <div id="content-body" class="content-body">
+	<div id="sidebar" class="sidebar"></div>
+	<div id="content" class="content">
+	<h2 class="text-center">Create Evacuation Event</h2>
+	
+<form id="createEvent" name="createEvent" action="create_event" method="post"
+		class="text-center" enctype="multipart/form-data">
+		Date: <input type="text" id="datepicker" name="datepicker" onkeydown="return false;"/>
+		<br />
+				<input type="hidden" name="latitude" id="latitude"/>
+				<input type="hidden" name="longitude" id="longitude"/>
+		<br />	Hour: <select id="hour" name="hour"></select>Minute: <select id="minute" name="minute"></select>  
+		<br /><br />
+		 Means of evacuation: <input type="text" name="means" id="means"/><br />
+		 <br />
+		 Capacity: <input type="number" id="capacity" name="capacity"/>
+		 <br /><br />
+		 Location:
+		<br />
+		<div class="text-center">
+			Address: <input type="text" name="address" id="address" onkeydown="if (event.keyCode == 13) $('#btnsearch').click()"/> <button id="btnsearch" type="button" onclick='translateAddress($("#address").val(), setMapCoords )'>Search</button> 
+			
+		</div>
+		<br />
+	<div id="map-canvas"></div>
+	<br/>
+		<input type="submit"
+			value="Create Event" />
+	</form>
+	</div>
+	</div>
+	</div>
+</body>
+</html>

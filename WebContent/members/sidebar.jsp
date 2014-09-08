@@ -15,6 +15,7 @@
 	%>
 	<!-- <li>Create Evacuation Event</li> -->
 	<li><a href="/assignment5-webapplication/members/upload_file.html">Upload Initial Data</a></li>
+	<li><a href="/assignment5-webapplication/members/create_event.html">Create Evacuation Event</li>
 	<%
 		} else { /* Don't let the admin delete his account */
     %>
