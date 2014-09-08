@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
 <link rel="stylesheet" href="css/header.css" type="text/css"/>
 <link rel="stylesheet" href="css/index.css" type="text/css"/>
+<link rel="stylesheet" href="/assignment5-webapplication/css/view_report.css" type="text/css" />
 <title>My Account</title>
 <script src="js/jquery-1.11.1.min.js"></script>
 <script src="js/load_header.js"></script>
@@ -18,7 +19,10 @@
 </head>
 <body>
 	<div id="header"></div>
+	<div id="content-body-wrapper" class="content-body-wrapper">
+    <div id="content-body" class="content-body">
 	<div id="sidebar"></div>
+	<div id="content">
 	<% 
 	Principal p = request.getUserPrincipal();
 	String username = p.getName();
@@ -79,6 +83,9 @@
 	</display:table>
 			</font>
 		</center>
+	</div>
+	</div>
+	</div>
 	</div>
 </body>
 </html>

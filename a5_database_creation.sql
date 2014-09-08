@@ -14,6 +14,25 @@
 -- content MEDIUMBLOB,
 -- filename VARCHAR(100)
 -- );
+
+-- CREATE TABLE events (
+-- event_id integer NOT NULL AUTO_INCREMENT PRIMARY KEY,
+-- date DATETIME,
+-- username VARCHAR(20),
+-- longitude DOUBLE,
+-- latitude DOUBLE,
+-- evacuation_means TEXT,
+-- capacity integer
+-- );
+
+-- CREATE TABLE events_users (
+-- event_id integer NOT NULL,
+-- user_id integer NOT NULL,
+-- PRIMARY KEY (event_id, user_id),
+-- CONSTRAINT foreignevent FOREIGN KEY (event_id)
+--      REFERENCES events (event_id) ON DELETE CASCADE
+-- );
+
 --   
 -- ALTER TABLE reports ADD INDEX(username);
 --

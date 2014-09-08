@@ -16,10 +16,24 @@ p.report_details {
 	float:right;
 }
 
- 
+.scroll{
+	height: 100px;
+	border: 1px;
+	overflow: auto;
+}
+
 label.error { 
    float: none; color: red; 
    padding-left: .5em;
    vertical-align: top; 
    display: block;
+}
+
+.statusmsg { 
+   float: none; color: red; 
+   padding-left: .5em;
+   vertical-align: top; 
+   display: block;
 }​
+
+#map-canvas{margin:5px;width:525px; height:350px; color:#0000FF;text-align:left;}

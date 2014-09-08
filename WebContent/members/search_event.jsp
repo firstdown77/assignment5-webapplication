@@ -102,7 +102,7 @@ function setMapCoords(data, textStatus)
 	<div id="content" class="content">
 	<h2 class="text-center">Search Nearest Evacuation Event</h2>
 	
-<form id="searchEvent" name="searchEvent" action="search_event" method="post"
+<form id="searchEvent" name="searchEvent" action="searchevent" method="get"
 		class="text-center">
 				<input type="hidden" name="latitude" id="latitude"/>
 				<input type="hidden" name="longitude" id="longitude"/>

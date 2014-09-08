@@ -3,7 +3,6 @@ package servlets;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,6 +26,7 @@ public class DeleteEventServlet extends HttpServlet {
 				if (!db.deleteEvent(new Long(id)))
 					response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			}
+			response.sendRedirect("view_all_reports.jsp?mode=events");
 		}
 		catch (Exception exc)
 		{

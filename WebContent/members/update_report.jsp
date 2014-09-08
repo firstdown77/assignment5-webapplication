@@ -7,6 +7,7 @@
 <head>
 <link rel="stylesheet" href="/assignment5-webapplication/css/bootstrap.min.css" type="text/css" />
 <link rel="stylesheet" href="/assignment5-webapplication/css/header.css" type="text/css" />
+<link rel='stylesheet' href='/assignment5-webapplication/css/view_report.css' type='text/css'/>
 <style>
 #textcontentdiv * {
 	vertical-align: top;
@@ -20,7 +21,10 @@
 </head>
 <body>
 	<div id="header"></div>
-	<div id="sidebar"></div>
+<div id="content-body-wrapper" class="content-body-wrapper">
+    <div id="content-body" class="content-body">
+<div id='sidebar'></div>
+<div id='content'>
 	<h2 class="text-center">Update Report</h2>
 	<%
 		Report r;
@@ -83,6 +87,8 @@
 			onclick="doGeoCode(document.getElementById('address').value, document.getElementById('latitude').value, document.getElementById('longitude').value)"
 			value="Update Report" />
 	</form>
-
+</div>
+</div>
+</div>
 </body>
 </html>

@@ -1,4 +1,5 @@
-<html>
+<?xml version="1.0" encoding="US-ASCII" ?>
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <link rel="stylesheet" href="/assignment5-webapplication/css/bootstrap.min.css" type="text/css" />
 <link rel="stylesheet" href="/assignment5-webapplication/css/view_report.css" type="text/css" />
@@ -19,7 +20,7 @@ key=AIzaSyA5VLYkZvLXln72Q2FaNEj6O3H2F0yZsVY"></script>
 
 <script>
 (function($,W,D)
-		{
+		{	
 		    var JQUERY4U = {};
 		 
 		    JQUERY4U.UTIL =
@@ -29,10 +30,7 @@ key=AIzaSyA5VLYkZvLXln72Q2FaNEj6O3H2F0yZsVY"></script>
 		            //form validation rules
 		            $("#createEvent").validate({
 		                rules: {
-		                	datepicker:{
-		                		required: true,
-		                		date: true
-		                	},
+		                	datepicker: "required",
 		                    means: "required",
 		                    capacity: {
 		                    	required: true,
@@ -63,7 +61,7 @@ key=AIzaSyA5VLYkZvLXln72Q2FaNEj6O3H2F0yZsVY"></script>
 		})(jQuery, window, document);
 
 $(function() {
-$( "#datepicker" ).datepicker();
+$( "#datepicker" ).datepicker({ dateFormat: 'yy-mm-dd' });
 $("#capacity").on ('keydown', function(e){
 	// Allow: backspace, delete, tab, escape, enter and .
     if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
@@ -210,8 +208,8 @@ function setMapCoords(data, textStatus)
 	<div id="content" class="content">
 	<h2 class="text-center">Create Evacuation Event</h2>
 	
-<form id="createEvent" name="createEvent" action="create_event" method="post"
-		class="text-center" enctype="multipart/form-data">
+<form id="createEvent" name="createEvent" action="view_event.jsp?action=create" method="post"
+		class="text-center">
 		Date: <input type="text" id="datepicker" name="datepicker" onkeydown="return false;"/>
 		<br />
 				<input type="hidden" name="latitude" id="latitude"/>
@@ -225,7 +223,7 @@ function setMapCoords(data, textStatus)
 		 Location:
 		<br />
 		<div class="text-center">
-			Address: <input type="text" name="address" id="address" onkeydown="if (event.keyCode == 13) $('#btnsearch').click()"/> <button id="btnsearch" type="button" onclick='translateAddress($("#address").val(), setMapCoords )'>Search</button> 
+			Address: <input type="text" name="address" id="address" onkeydown="if (event.keyCode == 13) {$('#btnsearch').click();return false;}"/> <button id="btnsearch" type="button" onclick='translateAddress($("#address").val(), setMapCoords )'>Search</button> 
 			
 		</div>
 		<br />

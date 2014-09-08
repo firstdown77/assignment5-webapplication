@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.sql.Types;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -24,6 +25,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import dbObjects.Event;
 import dbObjects.Report;
 import dbObjects.User;
 
@@ -34,7 +36,7 @@ public class DatabaseMethods {
 	private String dbName = "disasterevacuationdb";
 	private String driver = "com.mysql.jdbc.Driver";
 	private String userName = "root";
-	private String password = "";
+	private String password = "root";
 	private boolean isOpen = false;
 
 	public void open()
@@ -122,13 +124,14 @@ public class DatabaseMethods {
 			ResultSet keys = pst.getGeneratedKeys();
 			if (keys.next()) {
 				long toReturn = keys.getLong(1);
-				close();
+				keys.close();
 				return toReturn;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally{
+			close();
 		}
-		close();
 		return null;
 	}
 
@@ -156,6 +159,7 @@ public class DatabaseMethods {
 				if (r.getTitle() == null) r.setTitle("Untitled");
 				hsr.add(r);
 			}
+			rs.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} 
@@ -163,12 +167,12 @@ public class DatabaseMethods {
 		return hsr;
 	}
 
-	public HashSet<Report> getAllReports() {
+	public ArrayList<Report> getAllReports() {
 		open();
 		String SQL_QUERY= "SELECT * from reports";
 		Statement stmt;
 		Report r = null;
-		HashSet<Report> hsr = new HashSet<Report>();
+		ArrayList<Report> hsr = new ArrayList<Report>();
 		try {
 			stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(SQL_QUERY);
@@ -186,6 +190,7 @@ public class DatabaseMethods {
 				r.setFilename(StringEscapeUtils.unescapeJava(r.getFilename()));
 				hsr.add(r);
 			}
+			rs.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} 
@@ -215,6 +220,7 @@ public class DatabaseMethods {
 				r.setTextcontent(StringEscapeUtils.unescapeJava(r.getTextcontent()));
 				r.setFilename(StringEscapeUtils.unescapeJava(r.getFilename()));
 			}
+			rs.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -249,6 +255,7 @@ public class DatabaseMethods {
 				r.setFilename(StringEscapeUtils.unescapeJava(r.getFilename()));
 				rst.add(r);
 			}
+			rs.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -287,6 +294,7 @@ public class DatabaseMethods {
 				r.setFilename(StringEscapeUtils.unescapeJava(r.getFilename()));
 				rst.add(r);
 			}
+			rs.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -450,6 +458,7 @@ public class DatabaseMethods {
 						rs.getString("firstname"),
 						rs.getString("lastname"), rs.getDate("joindate"));
 			}
+			rs.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} 
@@ -478,6 +487,7 @@ public class DatabaseMethods {
 				u.setUsername(StringEscapeUtils.unescapeJava(u.getUsername()));
 				llu.add(u);
 			}
+			rs.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} 
@@ -682,4 +692,326 @@ public class DatabaseMethods {
 		close();
 		return count;
 	}
+	
+	public ArrayList<Event> getUpcomingEvents() {
+		open();
+		String SQL_QUERY= "SELECT * from events WHERE date >= now()";
+		Statement stmt;
+		Event e = null;
+		ArrayList<Event> hsr = new ArrayList<Event>();
+		try {
+			stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(SQL_QUERY);
+			while(rs.next()) {
+				e = new Event();
+				e.set_id(Long.valueOf(Long.valueOf(rs.getInt("event_id"))));
+				e.setUsername(rs.getString("username")); 
+				e.setDate(rs.getString("date"));
+				e.setLatitude((Double)rs.getObject("latitude"));
+				e.setLongitude((Double)rs.getObject("longitude"));
+				e.setEvacuationMeans(rs.getString("evacuation_means"));
+				e.setCapacity(rs.getInt("capacity"));
+						
+				e.setUsername(StringEscapeUtils.unescapeJava(e.getUsername()));
+				e.setEvacuationMeans(StringEscapeUtils.unescapeJava(e.getEvacuationMeans()));
+				e.setDate(StringEscapeUtils.unescapeJava(e.getDate()));
+				hsr.add(e);
+			}
+			rs.close();
+		} catch (SQLException exc) {
+			exc.printStackTrace();
+		} 
+		finally{
+			close();
+		}
+		return hsr;
+	}
+	public Event getEventById(Long id)
+	{
+		return getEventById(id, true);
+	}
+	
+	public Event getEventById(Long id, boolean open) {
+		int eventID = id.intValue();
+		if (open)
+			open();
+		String SQL_QUERY= "SELECT * from events WHERE event_id='" + eventID + "'";
+		Statement stmt;
+		Event e = null;
+		try {
+			//Get event
+			stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(SQL_QUERY);
+			if(rs.next()) {
+				e = new Event();
+				e.set_id(Long.valueOf(Long.valueOf(rs.getInt("event_id"))));
+				e.setUsername(rs.getString("username")); 
+				e.setDate(rs.getString("date"));
+				e.setLatitude((Double)rs.getObject("latitude"));
+				e.setLongitude((Double)rs.getObject("longitude"));
+				e.setEvacuationMeans(rs.getString("evacuation_means"));
+				e.setCapacity(rs.getInt("capacity"));
+						
+				e.setUsername(StringEscapeUtils.unescapeJava(e.getUsername()));
+				e.setEvacuationMeans(StringEscapeUtils.unescapeJava(e.getEvacuationMeans()));
+				e.setDate(StringEscapeUtils.unescapeJava(e.getDate()));
+			}
+			rs.close();
+			
+			if (e != null)
+			{
+				//Get users registered to the event
+				SQL_QUERY= "SELECT * from users, events_users WHERE users.user_id = events_users.user_id and events_users.event_id="+ eventID;
+				User u = null;
+	
+				stmt = con.createStatement();
+				rs = stmt.executeQuery(SQL_QUERY);
+				LinkedList<User> llu = new LinkedList<User>();
+				while(rs.next()) {
+					u = new User(Long.valueOf(Long.valueOf(rs.getInt("user_id"))),
+							rs.getString("username"), rs.getString("password_hash"),
+							rs.getString("firstname"),
+							rs.getString("lastname"), rs.getDate("joindate"));
+					u.setFirstName(StringEscapeUtils.unescapeJava(u.getFirstName()));
+					u.setLastName(StringEscapeUtils.unescapeJava(u.getLastName()));
+					u.setUsername(StringEscapeUtils.unescapeJava(u.getUsername()));
+					llu.add(u);
+				}
+				rs.close();	
+				e.setRegistered(llu.toArray(new User[llu.size()]));
+			}
+		} catch (SQLException exc) {
+			exc.printStackTrace();
+		}finally
+		{
+			if (open)
+				close();
+		}
+		return e;
+	}
+	
+	public Event getRegisteredEvent(String username) {
+		User u = getUserByUsername(username);
+		int userID = u.getUserID().intValue();
+		return getRegisteredEvent(userID, true);
+	}
+	
+	public Event getRegisteredEvent(int userID, boolean open) {
+		Event e = null;
+		try {
+			if (open)
+				open();
+			String SQL_QUERY= "SELECT * from events, events_users  WHERE events.event_id = events_users.event_id and date >= now() and user_id=" + userID;
+			Statement stmt;
+			
+			//Get event
+			stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(SQL_QUERY);
+			if(rs.next()) {
+				e = new Event();
+				e.set_id(Long.valueOf(Long.valueOf(rs.getInt("event_id"))));
+				e.setUsername(rs.getString("username")); 
+				e.setDate(rs.getString("date"));
+				e.setLatitude((Double)rs.getObject("latitude"));
+				e.setLongitude((Double)rs.getObject("longitude"));
+				e.setEvacuationMeans(rs.getString("evacuation_means"));
+				e.setCapacity(rs.getInt("capacity"));
+						
+				e.setUsername(StringEscapeUtils.unescapeJava(e.getUsername()));
+				e.setEvacuationMeans(StringEscapeUtils.unescapeJava(e.getEvacuationMeans()));
+				e.setDate(StringEscapeUtils.unescapeJava(e.getDate()));
+				e.setRegistered(new User[0]);
+			}
+			rs.close();
+			
+			if (e != null)
+			{
+				//Get users registered to the event
+				SQL_QUERY= "SELECT * from users, events_users WHERE users.user_id = events_users.user_id and events_users.event_id="+ e.get_id().intValue();
+				User u = null;
+	
+				stmt = con.createStatement();
+				rs = stmt.executeQuery(SQL_QUERY);
+				LinkedList<User> llu = new LinkedList<User>();
+				while(rs.next()) {
+					u = new User(Long.valueOf(Long.valueOf(rs.getInt("user_id"))),
+							rs.getString("username"), rs.getString("password_hash"),
+							rs.getString("firstname"),
+							rs.getString("lastname"), rs.getDate("joindate"));
+					u.setFirstName(StringEscapeUtils.unescapeJava(u.getFirstName()));
+					u.setLastName(StringEscapeUtils.unescapeJava(u.getLastName()));
+					u.setUsername(StringEscapeUtils.unescapeJava(u.getUsername()));
+					llu.add(u);
+				}
+				rs.close();	
+				e.setRegistered(llu.toArray(new User[llu.size()]));
+			}
+		} catch (SQLException exc) {
+			exc.printStackTrace();
+		}finally
+		{
+			if (open)
+				close();
+		}
+		return e;
+	}
+	
+	public Long insertEvent(Event e) {
+		open();
+		String SQL_QUERY = "INSERT INTO events (date, username, longitude, latitude,"
+				+ " evacuation_means, capacity) "
+				+ "VALUES (?, ?, ?, ?, ?, ?)";
+		PreparedStatement pst;
+		e.setUsername(StringEscapeUtils.escapeHtml4(e.getUsername()));
+		e.setDate(StringEscapeUtils.escapeHtml4(e.getDate()));
+		e.setEvacuationMeans(StringEscapeUtils.escapeHtml4(e.getEvacuationMeans()));
+		try {
+			pst = con.prepareStatement(SQL_QUERY, Statement.RETURN_GENERATED_KEYS);
+			pst.setString(1, e.getDate());
+			pst.setString(2, e.getUsername());
+			pst.setDouble(3, e.getLongitude());
+			pst.setDouble(4, e.getLatitude());
+			pst.setString(5, e.getEvacuationMeans());
+			pst.setInt(6, e.getCapacity());
+			pst.executeUpdate();
+			ResultSet keys = pst.getGeneratedKeys();
+			if (keys.next()) {
+				long toReturn = keys.getLong(1);
+				keys.close();
+				return toReturn;
+			}
+			else
+			{
+				keys.close();
+				return new Long(-1);
+			}
+		} catch (SQLException exc) {
+			exc.printStackTrace();
+			return new Long(-1);
+		}
+		finally{
+			close();
+		}
+	}
+	
+	public boolean deleteEvent(Long event_id) {
+		open();
+		String SQL_QUERY= "DELETE FROM events WHERE event_id="+event_id;
+		Statement stmt;
+		try {
+			stmt = con.createStatement();
+			int result = stmt.executeUpdate(SQL_QUERY);
+			return (result > 0);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} 
+		finally{
+			close();
+		}
+		return false;
+	}
+	
+	public void unregisterFromEvent(int event_id, int user_id){
+		open();
+		
+		String SQL_QUERY = "DELETE FROM events_users WHERE user_id=? and event_id=? ";
+		PreparedStatement pst;
+		try {
+			pst = con.prepareStatement(SQL_QUERY, Statement.RETURN_GENERATED_KEYS);
+			pst.setInt(1, user_id);
+			pst.setInt(2, event_id);
+			pst.executeUpdate();
+		}catch (Exception exc)
+		{
+			exc.printStackTrace();
+		}
+		finally
+		{
+			close();
+		}
+	}
+	
+	public Long addUserToEvent(int event_id, int user_id) {
+		open();
+		
+		String SQL_QUERY = "INSERT INTO events_users (user_id, event_id) "
+				+ "VALUES (?, ?)";
+		PreparedStatement pst;
+		try {
+			con.setAutoCommit(false);
+			con.createStatement().execute("LOCK TABLES events READ, users READ, events_users WRITE");
+			Event e = getEventById(new Long(event_id), false);
+			Event er = getRegisteredEvent(user_id, false);
+			Long toReturn;
+			if (er == null)
+			{
+				if (e.getRegistered().length < e.getCapacity())
+				{
+					pst = con.prepareStatement(SQL_QUERY, Statement.RETURN_GENERATED_KEYS);
+					pst.setInt(1, user_id);
+					pst.setInt(2, event_id);
+					pst.executeUpdate();
+					con.commit();
+					toReturn = new Long(1);
+				}
+				else
+				{
+					con.rollback();
+					toReturn = new Long(-1);
+				}
+			}else{
+				toReturn = new Long(-1);	
+			}
+			con.createStatement().execute("UNLOCK TABLES");
+			return toReturn;
+		} catch (SQLException exc) {
+			exc.printStackTrace();
+			try{con.rollback();con.createStatement().execute("UNLOCK TABLES");}catch(Exception excc){}
+			return new Long(-1);
+		}
+		finally{
+			close();
+		}
+	}
+	
+	public Event searchNearestEvent(double longitude, double latitude)
+	{	
+		Event e = null;
+		try {
+			open();
+			String SQL_QUERY= "SELECT event_id, username, date, evacuation_means, capacity, "+
+			"latitude, longitude, SQRT(POW(69.1 * (latitude - "+latitude+"), 2) + " +
+			   "POW(69.1 * ("+longitude+" - longitude) * COS(latitude / 57.3), 2)) AS distance "+
+			    "from events WHERE date >= now() ORDER BY distance";
+			Statement stmt;
+			
+			//Get event
+			stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(SQL_QUERY);
+			if(rs.next()) {
+				e = new Event();
+				e.set_id(Long.valueOf(Long.valueOf(rs.getInt("event_id"))));
+				e.setUsername(rs.getString("username")); 
+				e.setDate(rs.getString("date"));
+				e.setLatitude((Double)rs.getObject("latitude"));
+				e.setLongitude((Double)rs.getObject("longitude"));
+				e.setEvacuationMeans(rs.getString("evacuation_means"));
+				e.setCapacity(rs.getInt("capacity"));
+						
+				e.setUsername(StringEscapeUtils.unescapeJava(e.getUsername()));
+				e.setEvacuationMeans(StringEscapeUtils.unescapeJava(e.getEvacuationMeans()));
+				e.setDate(StringEscapeUtils.unescapeJava(e.getDate()));
+			}
+			rs.close();
+		} catch (SQLException exc) {
+			exc.printStackTrace();
+		}finally
+		{
+			close();
+		}
+		return e;
+		
+	}
+
 }
