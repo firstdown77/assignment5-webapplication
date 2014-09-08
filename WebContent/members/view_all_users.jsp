@@ -11,6 +11,7 @@
 	type="text/css" />
 <link rel="stylesheet" href="/assignment5-webapplication/css/header.css"
 	type="text/css" />
+<link rel="stylesheet" href="/assignment5-webapplication/css/view_report.css" type="text/css" />
 <script src="/assignment5-webapplication/js/jquery-1.11.1.min.js"></script>
 <script src="/assignment5-webapplication/js/load_header.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
@@ -18,7 +19,10 @@
 </head>
 <body>
 	<div id="header"></div>
+	<div id="content-body-wrapper" class="content-body-wrapper">
+    <div id="content-body" class="content-body">
 	<div id="sidebar"></div>
+	<div id="content">
 	<h2 class="text-center">View All Users</h2>
 	<div class="centered">
 		<%
@@ -47,6 +51,9 @@
 			</display:table>
 			</font>
 		</center>
+	</div>
+	</div>
+	</div>
 	</div>
 </body>
 </html>

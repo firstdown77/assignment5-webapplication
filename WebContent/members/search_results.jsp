@@ -6,6 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII" ></meta>
+<link rel='stylesheet' href='/assignment5-webapplication/css/view_report.css' type='text/css'></link>
 <link rel="stylesheet" href="/assignment5-webapplication/css/bootstrap.min.css" type="text/css"></link>
 <link rel="stylesheet" href="/assignment5-webapplication/css/search_results.css" type="text/css"></link>
 <link rel="stylesheet" href="/assignment5-webapplication/css/header.css" type="text/css"></link>
@@ -20,12 +21,25 @@
 </head>
 <body>
 	<div id="header"></div>
-	<div id="sidebar"></div>
+	<div id="content-body-wrapper" class="content-body-wrapper">
+    <div id="content-body" class="content-body">
+	<div id='sidebar'></div>
+	<div id='content'>
 	<h2 class="text-center">Search Results</h2>
 	<%
 		DatabaseMethods db = new DatabaseMethods();
 		HashSet<Report> resultSet = db.searchReports(request
 				.getParameter("search_query"));
+		double lng = 0; 
+		double lat = 0;
+		if (!resultSet.isEmpty()){
+			Report r = resultSet.iterator().next();
+			if (!(r.getLatitude() == null))
+			{
+				lng = r.getLongitude().doubleValue();
+				lat = r.getLatitude().doubleValue();
+			}
+		}
 		if (!resultSet.isEmpty()) {
 	%>
 		<div class="text-center">
@@ -80,8 +94,12 @@
 	    	  var mapOptions = {
 	    	  	zoom: 3,
 	    		center: new google.maps.LatLng(
-	    				ContinentCoords.choose.lat,
-	    				ContinentCoords.choose.lon),
+	    				<%if (lat != 0){ %>
+	    				<%=lat%>, <%=lng%>
+	    				<%}else{ %>
+	    				32.0266134, 34.7414895
+	    				<%}%>
+	    				),
 	    		mapTypeId: google.maps.MapTypeId.TERRAIN
 	    	  };
 	
@@ -127,5 +145,8 @@
 	<%
 		}
 	%>
+	</div>
+	</div>
+	</div>
 </body>
 </html>

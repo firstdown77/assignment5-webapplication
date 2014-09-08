@@ -51,8 +51,9 @@ public class ViewReportServlet extends HttpServlet {
 		Report r = db.getReportById(reportID);
 		
 	    out.println
-	      ("<!DOCTYPE html>\n" +
-	       "<html>\n" +
+	      (
+	    "<?xml version='1.0' encoding='US-ASCII' ?>\n" +
+	    "<html xmlns='http://www.w3.org/1999/xhtml'>\n" +
 	       "<head>\n" +
 	       "<link rel='stylesheet' href='/assignment5-webapplication/css/bootstrap.min.css' type='text/css'/>\n" +
 	       "<link rel='stylesheet' href='/assignment5-webapplication/css/header.css' type='text/css'/>\n" + 
@@ -67,7 +68,10 @@ public class ViewReportServlet extends HttpServlet {
 	       "<title>View Report</title></head>\n" +
 	       "<body bgcolor=\"#fdf5e6\">\n" +
 	       "<div id='header'></div>\n" +
-	       "<div id='sidebar'></div>\n" +
+	       "<div id='content-body-wrapper' class='content-body-wrapper'>\n" +
+	       "<div id='content-body' class='content-body'>\n" +
+	   		"<div id='sidebar'></div>\n" +
+	   		"<div id='content'>\n" +
 	       "<h1 class='text-center'>" + (r.getTitle() == null ? "Untitled" : r.getTitle()) +"</h1>\n" +
 	       "<p class='text-center' id='status_message' style='display:none'>" + updateMessage + "</p>\n" + 
 	       "<script>$('#status_message').fadeIn(300).delay(1500).fadeTo(300, 0);</script>\n" +
@@ -113,8 +117,17 @@ public class ViewReportServlet extends HttpServlet {
 	       		+ "google.maps.event.addDomListener(window, 'load', initialize);\n"
 	       		+ "</script>\n"
 	       		+ "<div id='map-canvas'></div>\n"
-	 	        + "<p class='text-center report_details'>Created By: " + (r.getUser() == null ? "Username Unavailable" : r.getUser()) + "</p>\n"
-		        + "</p>\n<p class='text-center'><a href='/assignment5-webapplication/members/update_report.jsp?update_report_id=" + r.get_id() + "'>Update Report</a> | <a href='/assignment5-webapplication?username=&delete_report_id=" + r.get_id() + "'>Delete Report</a>\n"
+	 	        + "<p class='text-center report_details'>Created By: " + (r.getUser() == null ? "Username Unavailable" : r.getUser()) 
+	 	        + "</p>\n");
+	    Principal p = request.getUserPrincipal();
+	    if ( (r.getUser().equals(p.getName())) || (p.getName().equals(UserVariables.adminUsername)) ) 
+	    {
+	    	out.println("<p class='text-center'><a href='/assignment5-webapplication/members/update_report.jsp?update_report_id=" + r.get_id() + "'>Update Report</a> | <a href='/assignment5-webapplication?username=&delete_report_id=" + r.get_id() + "'>Delete Report</a>\n"
+		        +	"</p>");
+	    }
+	    	out.println("</div>\n"
+	    			+"</div>\n"
+	    			+"</div>\n"
 	       		+ "</body></html>");
 	            // Add the circle for this city to the map.
 	}

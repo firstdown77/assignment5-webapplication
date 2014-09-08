@@ -19,112 +19,6 @@ key=AIzaSyA5VLYkZvLXln72Q2FaNEj6O3H2F0yZsVY"></script>
 <title>Create Evacuation Event</title>
 
 <script>
-(function($,W,D)
-		{	
-		    var JQUERY4U = {};
-		 
-		    JQUERY4U.UTIL =
-		    {
-		        setupFormValidation: function()
-		        {
-		            //form validation rules
-		            $("#createEvent").validate({
-		                rules: {
-		                	datepicker: "required",
-		                    means: "required",
-		                    capacity: {
-		                    	required: true,
-		                    	max: 99999,
-		                    	number: true,
-		                    },
-		                },
-		                messages: {
-		                	datepicker: "Please enter the event date",
-		                	means: "Please enter means of evacuation",
-		                	capacity: {
-		                		required: "Please enter the capacity",
-		                		max: "Maximum number exceeded",
-		                	},
-		                },
-		                submitHandler: function(form) {
-		                    form.submit();
-		                }
-		            });
-		        }
-		    }
-		 
-		    //when the dom has loaded setup form validation rules
-		    $(D).ready(function($) {
-		        JQUERY4U.UTIL.setupFormValidation();
-		    });
-		 
-		})(jQuery, window, document);
-
-$(function() {
-$( "#datepicker" ).datepicker({ dateFormat: 'yy-mm-dd' });
-$("#capacity").on ('keydown', function(e){
-	// Allow: backspace, delete, tab, escape, enter and .
-    if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
-         // Allow: Ctrl+A
-        (e.keyCode == 65 && e.ctrlKey === true) || 
-         // Allow: home, end, left, right
-        (e.keyCode >= 35 && e.keyCode <= 39)) {
-             // let it happen, don't do anything
-             return;
-    }
-    // Ensure that it is a number and stop the keypress
-    if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
-        e.preventDefault();
-    }
-});
-
-$('#continents').on('change', function() {
-	if (this.value==="northamerica") {
-		map.setCenter(new google.maps.LatLng(
-				ContinentCoords.northamerica.lat,
-				ContinentCoords.northamerica.lon));
-	}
-	else if (this.value==="southamerica") {
-		map.setCenter(new google.maps.LatLng(
-				ContinentCoords.southamerica.lat,
-				ContinentCoords.southamerica.lon))
-	}
-	else if (this.value==="europe") {
-		map.setCenter(new google.maps.LatLng(
-				ContinentCoords.europe.lat, 
-				ContinentCoords.europe.lon));
-	}
-	else if (this.value==="asia") {
-		map.setCenter(new google.maps.LatLng(
-				ContinentCoords.asia.lat, 
-				ContinentCoords.asia.lon));
-	}
-	else if (this.value==="africa") {
-		map.setCenter(new google.maps.LatLng(
-				ContinentCoords.africa.lat,
-				ContinentCoords.africa.lon));
-	}
-	else if (this.value==="australia") {
-		map.setCenter(new google.maps.LatLng(
-				ContinentCoords.australia.lat,
-				ContinentCoords.australia.lon));
-	}
-});
-
-
-for (i=0; i < 24; i++)
-{
-	var opt = '<option value=' + i + '>' + i + '</option>';
-	$('#hour').append(opt);
-}
-
-for (i=0; i < 60; i++)
-{
-	var opt = '<option value=' + i + '>' + i + '</option>';
-	$('#minute').append(opt);
-}
-});
-
 var map;
 var markersArray = [];
 
@@ -206,21 +100,13 @@ function setMapCoords(data, textStatus)
     <div id="content-body" class="content-body">
 	<div id="sidebar" class="sidebar"></div>
 	<div id="content" class="content">
-	<h2 class="text-center">Create Evacuation Event</h2>
+	<h2 class="text-center">Search Nearest Evacuation Event</h2>
 	
-<form id="createEvent" name="createEvent" action="view_event.jsp?action=create" method="post"
+<form id="searchEvent" name="searchEvent" action="searchevent" method="get"
 		class="text-center">
-		Date: <input type="text" id="datepicker" name="datepicker" onkeydown="return false;"/>
-		<br />
 				<input type="hidden" name="latitude" id="latitude"/>
 				<input type="hidden" name="longitude" id="longitude"/>
-		<br />	Hour: <select id="hour" name="hour"></select>Minute: <select id="minute" name="minute"></select>  
-		<br /><br />
-		 Means of evacuation: <input type="text" name="means" id="means"/><br />
-		 <br />
-		 Capacity: <input type="number" id="capacity" name="capacity"/>
-		 <br /><br />
-		 Location:
+		 Your Location:
 		<br />
 		<div class="text-center">
 			Address: <input type="text" name="address" id="address" onkeydown="if (event.keyCode == 13) {$('#btnsearch').click();return false;}"/> <button id="btnsearch" type="button" onclick='translateAddress($("#address").val(), setMapCoords )'>Search</button> 
@@ -230,7 +116,7 @@ function setMapCoords(data, textStatus)
 	<div id="map-canvas"></div>
 	<br/>
 		<input type="submit"
-			value="Create Event" />
+			value="Search" />
 	</form>
 	</div>
 	</div>

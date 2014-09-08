@@ -1,6 +1,7 @@
 package coreservlets;
 
 import java.awt.geom.Ellipse2D;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 import org.json.JSONArray;
@@ -23,7 +24,7 @@ public class SearchResource extends ServerResource {
 		Double dist = Double.parseDouble(getQueryValue("dist"));
 		Ellipse2D e = new Ellipse2D.Double(lon-dist, lat-dist, dist * 2, dist * 2);
 		DatabaseMethods db = new DatabaseMethods();
-		HashSet<Report> hsr = db.getAllReports();
+		ArrayList<Report> hsr = db.getAllReports();
 		HashSet<Report> toReturn = new HashSet<Report>();
 		for (Report r : hsr) {
 			if (e.contains(r.getLongitude(), r.getLatitude())) {
