@@ -36,7 +36,7 @@ public class DatabaseMethods {
 	private String dbName = "disasterevacuationdb";
 	private String driver = "com.mysql.jdbc.Driver";
 	private String userName = "root";
-	private String password = "root";
+	private String password = "1234";
 	private boolean isOpen = false;
 
 	public void open()
