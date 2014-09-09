@@ -951,6 +951,26 @@ public class DatabaseMethods {
 		return e;
 	}
 	
+	public int getRegisteredCount(Long id) {
+		int eventID = id.intValue();
+		open();
+		String SQL_QUERY= "SELECT COUNT(*) from events_users WHERE event_id=" + eventID + "";
+		Statement stmt;
+		try {
+			stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(SQL_QUERY);
+			if(rs.next()) {
+				int toReturn = rs.getInt("COUNT(*)");
+				System.out.println(toReturn);
+				return toReturn;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		close();
+		return 0;
+	}
+	
 	public Long insertEvent(Event e) {
 		open();
 		String SQL_QUERY = "INSERT INTO events (date, username, longitude, latitude,"
@@ -1106,7 +1126,33 @@ public class DatabaseMethods {
 			close();
 		}
 		return e;
-		
 	}
 
+//	public HashSet<Report> reportSearchService() {
+//		open();
+//		String SQL_QUERY= "SELECT * FROM reports WHERE acos(sin(1.3963) * sin(Lat) + cos(1.3963) * cos(Lat) * cos(Lon - (-0.6981))) * 6371 <= 1000";
+//		 
+//
+//		Statement stmt;
+//		User u = null;
+//		HashSet<Report> hsr = new HashSet<Report>();
+//		try {
+//			stmt = con.createStatement();
+//			ResultSet rs = stmt.executeQuery(SQL_QUERY);
+//			while(rs.next()) {
+//				u = new User(rs.getLong("user_id"), rs.getString("username"),
+//						rs.getString("password_hash"), rs.getString("firstname"),
+//						rs.getString("lastname"), rs.getDate("joindate"));
+//				u.setFirstName(StringEscapeUtils.unescapeJava(u.getFirstName()));
+//				u.setLastName(StringEscapeUtils.unescapeJava(u.getLastName()));
+//				u.setUsername(StringEscapeUtils.unescapeJava(u.getUsername()));
+//				llu.add(u);
+//			}
+//			rs.close();
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		} 
+//		close();
+//		return llu;
+//	}
 }

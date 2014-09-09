@@ -86,7 +86,7 @@ key=AIzaSyA5VLYkZvLXln72Q2FaNEj6O3H2F0yZsVY"></script>
 		var map;
 	      function initialize() {
 	    	  var mapOptions = {
-	    	  	zoom: 10,
+	    	  	zoom: 3,
 	    		center: new google.maps.LatLng(<%=lat %>, <%=lng %>),
 	    		mapTypeId: google.maps.MapTypeId.TERRAIN
 	    	  };

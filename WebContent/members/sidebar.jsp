@@ -18,7 +18,6 @@
 		String username = p.getName();
 		if (username.equals(UserVariables.adminUsername)) {
 	%>
-	<!-- <li>Create Evacuation Event</li> -->
 	<li><a href="/assignment5-webapplication/members/create_event.html">Create Evacuation Event</a></li>
 	<li><a href="/assignment5-webapplication/members/upload_file.html">Upload Initial Data</a></li>
 	
