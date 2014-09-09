@@ -575,9 +575,9 @@ public class DatabaseMethods {
 		try {
 			JSONTokener tokener = new JSONTokener(new InputStreamReader(dataStream));
 			JSONObject root = new JSONObject(tokener);
-			result += uploadInitialReports(root);
 			result += uploadInitialUsers(root);
 			result += uploadInitialUserRoles(root);
+			result += uploadInitialReports(root);
 			result += uploadInitialEvents(root);
 		} catch (JSONException e) {
 			e.printStackTrace();
