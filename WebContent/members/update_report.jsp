@@ -75,7 +75,7 @@
 			if (r.getFilename() == null) {
 				%>None<%
 			} else { %>
-				<a href='view_file?filename=<%=r.getFilename() %>' target='_blank'><%=r.getFilename()%></a>
+				<a href='view_file?id=<%=r.get_id() %>' target='_blank'><%=r.getFilename()%></a>
 			<% } %>
 			<br /><br />
 			Upload New File: &nbsp;&nbsp;<input type="file"
